@@ -44,9 +44,11 @@ footer{
 
 }
 img.author{
-     border-radius: 100%;
-     float:left; 
-     margin:15px;
+    display:block;
+    height:60%;
+    border-radius: 100%;
+    float:right; 
+    margin:15px;
 }
 
 nav ul{

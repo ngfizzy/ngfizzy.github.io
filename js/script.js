@@ -26,6 +26,11 @@ function makeVisible(id){
     var goals = document.getElementById("goals");
     var myJourney = document.getElementById("my_journey");
 
+    if(id == "back_button"){
+        skillset.style.visibility = "hidden";
+        goals.style.visibility = "hidden";
+        myJourney.style.visibility = "hidden"
+    }
     if(id == "skillset_button"){
         skillset.style.visibility = "visible";
         skillset.style.zIndex = "1"

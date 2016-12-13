@@ -23,7 +23,7 @@ nav,header,footer,main {
     color:white;
     height: 30%;
     width: 100%;
-   /* background-color:#10101C;*/
+   background-color:#10101C;
 }
 
 footer{
@@ -36,31 +36,35 @@ footer{
 }
 
 #navigation header{
-    display:absolute;
-    max-height:10px;
-    max-width:50%;
-    top:10px;
-    margin-left:auto;
-    margin-bottom:10px;
-    text-align:center;
-
+    display:flex;
+    flex-direction:column;
+    max-height:fit-content;
+    max-height:moz-fit-content;
+    max-width:25;
+    align-items:center;
+    align-self: center;
+    text-align: center;
 }
 
+
 img.author{
-     border-radius: 100%;
-     float:right; 
-     margin:15px;
+    display:block;
+    height:60%;
+    border-radius: 100%;
+    float:right; 
+    margin:15px;
 }
 
 nav ul{
-    display:absolute;
     background-color:rgba(16, 16, 28,0.8);
-    max-width: 120px;
+    float:left;
+    max-height:120%;   
     padding-top:2em;
     padding-bottom:2em;
     margin-top:0;
     text-align: center;
 }
+
 
 nav li {
     list-style-type:none;
@@ -87,12 +91,12 @@ a{
     
 }
 
-
 main {
-    position:absolute;
-    width: 80%;
+    position:relative;
+    width: 70%;
     height:fit-content;
-    top:35%;
+    float:right;
+    margin-top:20em;
     padding: 10px 10px;
     margin-left:10%;
     text-align: center;
@@ -100,18 +104,28 @@ main {
     border-width: 2px;
 }
 
+
+
 main h1 {
     color:lightgray;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size:max(3em,25px);
 }
+
 /*##############################################################################/*
 /*for index.html*/
-#about_me_button {
-    width:fit-content;
-    width:-moz-fit-content;
-    height:-moz-fit-content;
 
+#about_me_button {
+    display:block;
+    border-radius:30%;
+    padding:10px 10px;
+    margin-top:auto;
+    width: -moz-fit-content;
+    width:fit-content;
+    background-color:yellowgreen;
+    color:white;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    font-size:2em;
     padding:4px;
     margin:auto;
 }
@@ -123,28 +137,15 @@ main h1 {
 /*Style for about_me.html*/
 
 
-#about_me_button {
-    display:block;
-    border-radius:30%;
-    padding:10px 10px;
-    margin-top:20px;
-    width:fit-content;
-    background-color:yellowgreen;
-    color:white;
-    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
-    font-size:2em;
-}
-
 #short_description {
-    position:relative;
     float:left;
     box-sizing: content-box;
-    border-style:solid;
+    border-style:groove;
     border-color:darkgray;
     border-width: 0 5px;
     border-radius: 5px;
     padding: 30px 30px;
-    width:25%;
+    width:80%;
     height:300px;
    
     color:darkgray;
@@ -171,35 +172,22 @@ main h1 {
 }
 
 #skillset, #goals, #my_journey {/*used in script.js to style*/
-    display:inline-block;
+    display: inline-block;
     position:absolute;
     visibility:hidden;
     box-sizing: content-box;
-    margin-left:5%;
+    left:5px;
     padding:30px 30px;
-    width:25%;
+    width:80%;
     height:300px;
-    white-space: nowrap;
     border-style: ridge;
     border-width: 0 5px 0 5px;
     border-radius:5px;
     color:darkgray;
-    background-color:rgba(0, 0, 102, 0.5);
+    background-color:rgba(0, 0, 102, 0.86);
     box-shadow:0 0px 0px 0;
-    left:30%;
-    overflow: hidden;
-    -webkit-transition:width 1s;
-    transition: width 1s;
+    overflow-y:auto;
     font-size:102%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     
-}
-
-
-#skillset:hover, #goals:hover, #my_journey:hover {
-    width:50%;
-    box-shadow: 0 5px 10px  gray, 0 10px 28px;
-    font-size: 120%;
-    white-space:normal;
-    overflow-y:auto;
 }
