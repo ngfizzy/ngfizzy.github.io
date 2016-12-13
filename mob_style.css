@@ -1,0 +1,205 @@
+
+*{
+    padding:0px;
+    margin:0;
+}
+
+body{
+    height:100%;
+    background-color: midnightblue;
+    background-image:url("images/bg.jpg");
+    background-attachment: fixed;
+    background-size:cover;
+}
+
+nav,header,footer,main {
+    display:block;
+}
+
+
+#navigation {
+    z-index:2;
+    position:fixed;
+    color:white;
+    height: 30%;
+    width: 100%;
+   /* background-color:#10101C;*/
+}
+
+footer{
+    position:absolute;
+    width:100%;
+    height:10%;
+    bottom:0;
+    margin-top:10px;
+    background-color:mintcream;
+}
+
+#navigation header{
+    display:absolute;
+    max-height:10px;
+    max-width:50%;
+    top:10px;
+    margin-left:auto;
+    margin-bottom:10px;
+    text-align:center;
+
+}
+
+img.author{
+     border-radius: 100%;
+     float:right; 
+     margin:15px;
+}
+
+nav ul{
+    display:absolute;
+    background-color:rgba(16, 16, 28,0.8);
+    max-width: 120px;
+    padding-top:2em;
+    padding-bottom:2em;
+    margin-top:0;
+    text-align: center;
+}
+
+nav li {
+    list-style-type:none;
+    color:white;
+    margin-bottom:1.5em;
+    text-align: center;
+    white-space:nowrap;
+}
+
+
+nav li a {    
+    color:white;
+    padding:1em 1.5em;
+    margin:auto;
+    text-align:center;
+}
+nav li a:hover {
+    background-color:rgba(0,0,0,0.8);
+    
+}
+
+a{
+    text-decoration:none;
+    
+}
+
+
+main {
+    position:absolute;
+    width: 80%;
+    height:fit-content;
+    top:35%;
+    padding: 10px 10px;
+    margin-left:10%;
+    text-align: center;
+    border-style:solid;
+    border-width: 2px;
+}
+
+main h1 {
+    color:lightgray;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size:max(3em,25px);
+}
+/*##############################################################################/*
+/*for index.html*/
+#about_me_button {
+    width:fit-content;
+    width:-moz-fit-content;
+    height:-moz-fit-content;
+
+    padding:4px;
+    margin:auto;
+}
+#about_me_button:hover{
+    box-shadow: 0 4px 8px 0 gray;
+}
+
+/*#############################################################################*/
+/*Style for about_me.html*/
+
+
+#about_me_button {
+    display:block;
+    border-radius:30%;
+    padding:10px 10px;
+    margin-top:20px;
+    width:fit-content;
+    background-color:yellowgreen;
+    color:white;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    font-size:2em;
+}
+
+#short_description {
+    position:relative;
+    float:left;
+    box-sizing: content-box;
+    border-style:solid;
+    border-color:darkgray;
+    border-width: 0 5px;
+    border-radius: 5px;
+    padding: 30px 30px;
+    width:25%;
+    height:300px;
+   
+    color:darkgray;
+    background-color:rgba(0,0,102,0.5);
+    overflow-y:auto;
+}
+
+.more_buttons {
+    display:inline-block;
+    margin-top:4px;
+}
+
+.more_buttons p {
+    padding:3px 5px;
+    width:fit-content;
+    margin-bottom:3px;
+    border-radius:10%;
+    color:red;
+    background-color:goldenrod;
+}
+
+.more_buttons p:hover{
+    box-shadow:0 2px 2px 0 lightgray;
+}
+
+#skillset, #goals, #my_journey {/*used in script.js to style*/
+    display:inline-block;
+    position:absolute;
+    visibility:hidden;
+    box-sizing: content-box;
+    margin-left:5%;
+    padding:30px 30px;
+    width:25%;
+    height:300px;
+    white-space: nowrap;
+    border-style: ridge;
+    border-width: 0 5px 0 5px;
+    border-radius:5px;
+    color:darkgray;
+    background-color:rgba(0, 0, 102, 0.5);
+    box-shadow:0 0px 0px 0;
+    left:30%;
+    overflow: hidden;
+    -webkit-transition:width 1s;
+    transition: width 1s;
+    font-size:102%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    
+}
+
+
+#skillset:hover, #goals:hover, #my_journey:hover {
+    width:50%;
+    box-shadow: 0 5px 10px  gray, 0 10px 28px;
+    font-size: 120%;
+    white-space:normal;
+    overflow-y:auto;
+}
