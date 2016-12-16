@@ -59,8 +59,9 @@
     }
 
     nav ul{
+        display:block;
+        float: left;
         background-color:rgba(16, 16, 28,0.8);
-        float:left;
         max-height:120%;   
         padding-top:2em;
         padding-bottom:2em;
@@ -79,7 +80,10 @@
         white-space:nowrap;
     }
 
-
+    nav{
+        float: left;
+        max-width: 60px;
+    }
     nav li a {    
         color:white;
         padding:1em 1.5em;
