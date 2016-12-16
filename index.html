@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang = "en">
     <head>
+        <title>Bamidele Isaac O.</title>
+        <script src = "../js/script.js" type = "text/javascript" >
+            var link  = document.createElement('link');
+            link.rel  = 'stylesheet';
+            link.href = 'mob_style.css';
+            if (navigator.userAgent.indexOf('UCBrowser') > -1 || window.innerWidth < 910) {
+                link.href = 'mob_style.css';
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
+        </script>
+        <noscript>Javascript is disabled. Please Enabled to view full site content.</noscript>
         <link rel = "shortcut icon" href = "images/fizzy.jpg">
         <link type = "text/css" rel="stylesheet" href = "mob_style.css">
         <link  type= "text/css" rel="stylesheet"  href="main.css" >

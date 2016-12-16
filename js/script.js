@@ -20,6 +20,7 @@
     }
 }*/
 
+
 function makeVisible(id){
 
     var skillset = document.getElementById("skillset");
