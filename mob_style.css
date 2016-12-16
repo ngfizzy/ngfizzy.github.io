@@ -70,6 +70,8 @@
 
 
     nav li {
+        display:block;
+        float:left;
         list-style-type:none;
         color:white;
         margin-bottom:1.5em;
