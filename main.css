@@ -1,5 +1,5 @@
-@media screen  and (min-width: 910px){
 
+@media screen  and (min-width:320px) and (max-width: 909px){
 
     *{
         padding:0px;
@@ -23,9 +23,9 @@
         z-index:2;
         position:fixed;
         color:white;
-        height: 25%;
+        height: 30%;
         width: 100%;
-        background-color:#10101C;
+    background-color:#10101C;
     }
 
     footer{
@@ -38,12 +38,18 @@
     }
 
     #navigation header{
-        height:10px;
-        width:50%;
-        margin-bottom:10px;
-        text-align:center;
-
+        display:flex;
+        flex-direction:column;
+        height:fit-content;
+        height:-moz-fit-content;
+        width:fit-content;
+        width:-moz-fit-content;
+        align-items:center;
+        align-self: center;
+        text-align: center;
     }
+
+
     img.author{
         display:block;
         height:60%;
@@ -53,26 +59,36 @@
     }
 
     nav ul{
-        position:relative;
-        width: 60%;
-        left:25%;
-        right:50%;
-        margin-top:5%;
-    }
-
-    nav li {
-        display:inline-block;
-        list-style-type:none;
-        color:white;
-        margin-bottom:10px;
+        display:block;
+        float: left;
+        background-color:rgba(16, 16, 28,0.8);
+        max-height:120%;   
+        padding-top:2em;
+        padding-bottom:2em;
+        margin-top:0;
         text-align: center;
     }
 
 
+    nav li {
+        display:block;
+        float:left;
+        list-style-type:none;
+        color:white;
+        margin-bottom:1.5em;
+        text-align: center;
+        white-space:nowrap;
+    }
+
+    nav{
+        float: left;
+        max-width: 60px;
+    }
     nav li a {    
         color:white;
         padding:1em 1.5em;
         margin:auto;
+        text-align:center;
     }
     nav li a:hover {
         background-color:rgba(0,0,0,0.8);
@@ -84,29 +100,40 @@
         
     }
 
-
     main {
-        position:absolute;
-        width: 80%;
+        position:relative;
+        clear:left;
+        float:left;
+        width: 70%;
         height:fit-content;
-        top:35%;
+        float:right;
+        margin-top:20em;
         padding: 10px 10px;
-        margin-left:10%;
         text-align: center;
     }
+
+
 
     main h1 {
         color:lightgray;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-size:3em;
+        font-size:max(3em,25px);
     }
+
     /*##############################################################################/*
     /*for index.html*/
-    #about_me_button {
-        width:fit-content;
-        width:-moz-fit-content;
-        height:-moz-fit-content;
 
+    #about_me_button {
+        display:block;
+        border-radius:30%;
+        padding:10px 10px;
+        margin-top:auto;
+        width: -moz-fit-content;
+        width:fit-content;
+        background-color:yellowgreen;
+        color:white;
+        font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+        font-size:2em;
         padding:4px;
         margin:auto;
     }
@@ -118,28 +145,15 @@
     /*Style for about_me.html*/
 
 
-    #about_me_button {
-        display:block;
-        border-radius:30%;
-        padding:10px 10px;
-        margin-top:20px;
-        width:fit-content;
-        background-color:yellowgreen;
-        color:white;
-        font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
-        font-size:2em;
-    }
-
     #short_description {
-        position:relative;
         float:left;
         box-sizing: content-box;
-        border-style:solid;
+        border-style:groove;
         border-color:darkgray;
         border-width: 0 5px;
         border-radius: 5px;
         padding: 30px 30px;
-        width:25%;
+        width:80%;
         height:300px;
     
         color:darkgray;
@@ -166,37 +180,24 @@
     }
 
     #skillset, #goals, #my_journey {/*used in script.js to style*/
-        display:inline-block;
+        display: inline-block;
         position:absolute;
         visibility:hidden;
         box-sizing: content-box;
-        margin-left:5%;
+        left:5px;
         padding:30px 30px;
-        width:25%;
+        width:80%;
         height:300px;
-        white-space: nowrap;
         border-style: ridge;
         border-width: 0 5px 0 5px;
         border-radius:5px;
         color:darkgray;
-        background-color:rgba(0, 0, 102, 0.5);
+        background-color:rgba(0, 0, 102, 0.86);
         box-shadow:0 0px 0px 0;
-        left:30%;
-        overflow: hidden;
-        -webkit-transition:width 1s;
-        transition: width 1s;
+        overflow-y:auto;
         font-size:102%;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         
-    }
-
-
-    #skillset:hover, #goals:hover, #my_journey:hover {
-        width:50%;
-        box-shadow: 0 5px 10px  gray, 0 10px 28px;
-        font-size: 120%;
-        white-space:normal;
-        overflow-y:auto;
     }
 
 }
