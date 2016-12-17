@@ -20,7 +20,10 @@
     }
 }*/
 
-
+if(navigator.userAgent.indexOf("Opera Mini")> -1){
+   var body = document.getElementByTagName(body);
+   body[0].style.backgroundImage = "none";
+}
 function makeVisible(id){
 
     var skillset = document.getElementById("skillset");
