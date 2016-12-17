@@ -1,4 +1,4 @@
-@media screen and (min-width: 910px){
+@media screen and (orientation:landscape){
 
 
     *{
@@ -20,12 +20,12 @@
 
 
     #navigation {
-        z-index:2;
         position:fixed;
-        top:0;
-        color:white;
         height: 25%;
         width: 100%;
+        z-index:2;
+        top:0;
+        color:white;
         background-color:#10101C;
     }
 
@@ -39,9 +39,11 @@
     }
 
     #navigation header{
-        height:10px;
-        width:50%;
-        margin-bottom:10px;
+        height: -moz-fit-content;
+        height: fit-content;
+        width:fit-content;
+        width:-moz-fit-content;
+        margin-top: 10px;
         text-align:center;
 
     }
