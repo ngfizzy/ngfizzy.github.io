@@ -538,6 +538,7 @@ a:hover, a:active, a:focus {
 }
 
 #contact .contact-info {
+  height: 15em !important;
   padding-top: 6px;
   padding-bottom: 6px;
 }
@@ -687,6 +688,7 @@ footer {
     padding: 0;
     margin: 0;
   }
+
 
   .background-image {
     position: relative;
