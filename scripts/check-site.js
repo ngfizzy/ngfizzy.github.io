@@ -34,7 +34,7 @@ const requiredSnippets = [
   'alt="Black-and-white sketch portrait of Olufisayo Bamidele"',
   'https://www.medium.com/fisiwizy',
   'https://www.linkedin.com/in/olufisayo-bamidele-386b94129',
-  'I build backend platforms, product systems, and the tools that help teams run them.',
+  'I build backend platforms, APIs, and the internal tools teams rely on to run them.',
   'Working mainly in Python and TypeScript',
   'https://github.com/ngfizzy/skills',
   'https://github.com/ngfizzy/service-provider-directory',
@@ -48,8 +48,8 @@ const requiredSnippets = [
   'The Linux Foundation, Safaricom Digifarm, Quoter, and CleanChoice Energy',
 ];
 
-// Contact routes the author keeps private. Matched by scheme/host so the test
-// never has to spell out the address or handle it is protecting.
+// Contact routes the author keeps private. Matched by scheme and host so the
+// removed address and handle stay out of this file too.
 const forbiddenSnippets = [
   'mailto:',
   'instagram.com',
@@ -58,12 +58,6 @@ const forbiddenSnippets = [
 for (const snippet of requiredSnippets) {
   if (!index.includes(snippet)) {
     throw new Error(`Expected site content is missing: ${snippet}`);
-  }
-}
-
-for (const snippet of forbiddenSnippets) {
-  if (index.includes(snippet)) {
-    throw new Error(`The site must not publish this private contact route: ${snippet}`);
   }
 }
 
@@ -80,10 +74,24 @@ if (!fs.existsSync(themeScriptPath)) {
 }
 
 const themeScript = fs.readFileSync(themeScriptPath, 'utf8');
+const stylesheet = fs.readFileSync(stylesheetPath, 'utf8');
+const authoredSources = [
+  ['index.html', index],
+  ['css/site.css', stylesheet],
+  ['js/theme.js', themeScript],
+];
 
 for (const [label, source] of [['index.html', index], ['js/theme.js', themeScript]]) {
   if (!source.includes(THEME_STORAGE_KEY)) {
     throw new Error(`${label} must use the '${THEME_STORAGE_KEY}' storage key to persist the theme.`);
+  }
+}
+
+for (const [label, source] of authoredSources) {
+  for (const snippet of forbiddenSnippets) {
+    if (source.includes(snippet)) {
+      throw new Error(`${label} must not publish this private contact route: ${snippet}`);
+    }
   }
 }
 

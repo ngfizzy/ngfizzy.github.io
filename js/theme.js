@@ -2,7 +2,9 @@
   var STORAGE_KEY = 'ngfizzy-theme';
   var root = document.documentElement;
   var toggle = document.querySelector('[data-theme-toggle]');
-  var systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)');
+  var systemPrefersLight = typeof window.matchMedia === 'function'
+    ? window.matchMedia('(prefers-color-scheme: light)')
+    : { matches: false };
 
   if (!toggle) {
     return;
