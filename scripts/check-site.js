@@ -7,21 +7,31 @@ const indexPath = path.join(root, 'index.html');
 const stylesheetPath = path.join(root, 'css', 'site.css');
 const sketchPath = path.join(root, 'images', 'home-img-sketch.png');
 const servedSketchPath = path.join(root, 'images', 'home-img-sketch.jpg');
+const themeScriptPath = path.join(root, 'js', 'theme.js');
 const index = fs.readFileSync(indexPath, 'utf8');
+// Matches the wordmark link and its decorative image without pinning attribute
+// order, so unrelated attributes can be added without a spurious failure.
+const WORDMARK_LINK_WITH_DECORATIVE_SKETCH_RE = /<a\s+class="wordmark"[^>]*aria-label="Olufisayo Bamidele home"[^>]*>\s*<img\s+[^>]*alt=""[^>]*>\s*<\/a>/;
+// The stored-theme key is written by the inline head script and read back by
+// js/theme.js; if the two drift, every reload silently discards the choice.
+const THEME_STORAGE_KEY = 'ngfizzy-theme';
 
 const requiredSnippets = [
   '<main id="top">',
+  'class="wordmark" href="#top" aria-label="Olufisayo Bamidele home"',
   'id="home"',
   'href="css/site.css"',
   'id="about"',
   'id="contact"',
   'id="skills"',
+  'id="work"',
+  'id="career"',
+  'data-theme-toggle',
+  'src="js/theme.js"',
   'Python · TypeScript · JavaScript · Go',
   'Docker · Kubernetes · Terraform · Helm · AWS · Google Cloud',
   'src="images/home-img-sketch.jpg"',
   'alt="Black-and-white sketch portrait of Olufisayo Bamidele"',
-  'mailto:fisiwizy@gmail.com',
-  'https://www.instagram.com/ng_fizzy/',
   'https://www.medium.com/fisiwizy',
   'https://www.linkedin.com/in/olufisayo-bamidele-386b94129',
   'I build backend platforms, product systems, and the tools that help teams run them.',
@@ -38,14 +48,43 @@ const requiredSnippets = [
   'The Linux Foundation, Safaricom Digifarm, Quoter, and CleanChoice Energy',
 ];
 
+// Contact routes the author keeps private. Matched by scheme/host so the test
+// never has to spell out the address or handle it is protecting.
+const forbiddenSnippets = [
+  'mailto:',
+  'instagram.com',
+];
+
 for (const snippet of requiredSnippets) {
   if (!index.includes(snippet)) {
     throw new Error(`Expected site content is missing: ${snippet}`);
   }
 }
 
+for (const snippet of forbiddenSnippets) {
+  if (index.includes(snippet)) {
+    throw new Error(`The site must not publish this private contact route: ${snippet}`);
+  }
+}
+
+if (!WORDMARK_LINK_WITH_DECORATIVE_SKETCH_RE.test(index)) {
+  throw new Error('The profile icon must be a decorative sketch inside the labeled home link.');
+}
+
 if (!fs.existsSync(stylesheetPath)) {
   throw new Error('The site stylesheet is missing.');
+}
+
+if (!fs.existsSync(themeScriptPath)) {
+  throw new Error('The theme script is missing, so the theme toggle would not work.');
+}
+
+const themeScript = fs.readFileSync(themeScriptPath, 'utf8');
+
+for (const [label, source] of [['index.html', index], ['js/theme.js', themeScript]]) {
+  if (!source.includes(THEME_STORAGE_KEY)) {
+    throw new Error(`${label} must use the '${THEME_STORAGE_KEY}' storage key to persist the theme.`);
+  }
 }
 
 const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
