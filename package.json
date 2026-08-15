@@ -4,6 +4,7 @@
   "description": "My profile",
   "main": "server.js",
   "scripts": {
+    "dev": "HOST=127.0.0.1 node server.js",
     "start": "node server.js",
     "test": "node scripts/check-site.js"
   },
