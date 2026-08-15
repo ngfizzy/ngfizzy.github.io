@@ -8,10 +8,18 @@ const stylesheetPath = path.join(root, 'css', 'site.css');
 const sketchPath = path.join(root, 'images', 'home-img-sketch.png');
 const servedSketchPath = path.join(root, 'images', 'home-img-sketch.jpg');
 const themeScriptPath = path.join(root, 'js', 'theme.js');
+const skillsIndexPath = path.join(root, 'skills', 'index.html');
+const skillsDataPath = path.join(root, 'skills', 'data.js');
+const skillsScriptPath = path.join(root, 'skills', 'skills.js');
+const skillsStylesheetPath = path.join(root, 'skills', 'skills.css');
 const blogIndexPath = path.join(root, 'blog', 'index.html');
 const blogPostPath = path.join(root, 'blog', 'opinion', '2026-08-14-friday-checkout-say-what.html');
 const blogSourcePath = path.join(root, 'blog', 'opinion', '2026-08-14-friday-checkout-say-what.md');
 const index = fs.readFileSync(indexPath, 'utf8');
+const skillsIndex = fs.readFileSync(skillsIndexPath, 'utf8');
+const skillsData = fs.readFileSync(skillsDataPath, 'utf8');
+const skillsScript = fs.readFileSync(skillsScriptPath, 'utf8');
+const skillsStylesheet = fs.readFileSync(skillsStylesheetPath, 'utf8');
 const blogIndex = fs.readFileSync(blogIndexPath, 'utf8');
 const blogPost = fs.readFileSync(blogPostPath, 'utf8');
 const blogSource = fs.readFileSync(blogSourcePath, 'utf8');
@@ -79,12 +87,27 @@ const requiredSnippets = [
   'https://github.com/ngfizzy/service-provider-directory',
   'https://github.com/ngfizzy/express-auth',
   'https://github.com/ngfizzy/blog-demos',
+  'href="skills/"',
   'Senior Full-stack Engineer <span>Smava / Finanzcheck</span>',
   'Senior Software Engineer <span>ComX.io</span>',
   'Platform Engineer / Security Engineer <span>Chipper Cash</span>',
   'Technical Team Lead <span>Gotahia</span>',
   'Software Engineer <span>Andela</span>',
   'The Linux Foundation, Safaricom Digifarm, Quoter, and CleanChoice Energy',
+];
+
+const skillsRequiredSnippets = [
+  ['skills/index.html', skillsIndex, 'id="skill-search"'],
+  ['skills/index.html', skillsIndex, 'id="skill-detail"'],
+  ['skills/index.html', skillsIndex, 'src="data.js"'],
+  ['skills/index.html', skillsIndex, 'src="skills.js"'],
+  ['skills/data.js', skillsData, 'window.PUBLIC_SKILLS'],
+  ['skills/data.js', skillsData, 'name: \'better-docs\''],
+  ['skills/data.js', skillsData, 'name: \'execution-path-tracing\''],
+  ['skills/skills.js', skillsScript, 'make install SKILL='],
+  ['skills/skills.js', skillsScript, 'navigator.clipboard.writeText'],
+  ['skills/skills.js', skillsScript, "if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function')"],
+  ['skills/skills.css', skillsStylesheet, '.install-box'],
 ];
 
 const blogRequiredSnippets = [
@@ -105,6 +128,18 @@ const forbiddenSnippets = [
 for (const snippet of requiredSnippets) {
   if (!index.includes(snippet)) {
     throw new Error(`Expected site content is missing: ${snippet}`);
+  }
+}
+
+for (const [label, source, snippet] of skillsRequiredSnippets) {
+  if (!source.includes(snippet)) {
+    throw new Error(`Expected skills directory content is missing from ${label}: ${snippet}`);
+  }
+}
+
+for (const skillName of ['better-docs', 'cracked-debugging', 'document-runtime', 'execution-path-tracing', 'say-what']) {
+  if (!skillsData.includes(`name: '${skillName}'`) || !skillsData.includes(`make install SKILL=${skillName}`) && !skillsScript.includes('make install SKILL=')) {
+    throw new Error(`The skills directory is missing ${skillName}.`);
   }
 }
 
