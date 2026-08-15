@@ -1,0 +1,75 @@
+---
+title: "SQL JOINS; Identifying The Left And Right Table"
+date: 2023-10-22
+description: "If the blog post's title caught your attention, then you're probably like me;  you remember the big..."
+---
+
+<p>If the blog post's title caught your attention, then you're probably like me;  you remember the big things and always need to remind yourself of the small stuff. You spell length as "lenght"  all the time, then go back to correct yourself; you need someone to remind you of the correct way to end a formal letter: yours faithfully, yours sincerely, yours violently, or yours sarcastically, and when joining tables in SQL, you argue with yourself about which table you're joining is the left or right table.</p>
+
+<h2>
+  <a name="so-which-one-is-the-left-table" href="#so-which-one-is-the-left-table">
+  </a>
+  So Which One Is The Left Table?
+</h2>
+
+<p>I'll tell you now, for the one hundred and sixty-fifth times, <strong>the table that follows your <code>FROM</code> keyword is always the left table</strong>. The right table is the one that comes immediately after the <code>JOIN</code> keywords. You just need to remember one of those.</p>
+
+<h2>
+  <a name="lets-practice" href="#lets-practice">
+  </a>
+  Let's Practice
+</h2>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">post</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">LEFT</span> <span class="k">JOIN</span>  <span class="n">posts</span> <span class="k">ON</span>   <span class="n">users</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">posts</span><span class="p">.</span><span class="n">user_id</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, which table is the left table? The left table in the query above is the users' table. Why? Because it comes immediately after the "FROM" keyword. That makes the <code>posts</code> table the right table.</p>
+
+<h2>
+  <a name="lets-flip-it-around" href="#lets-flip-it-around">
+  </a>
+  Let's flip it around.
+</h2>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight sql"><code><span class="k">SELECT</span> <span class="n">users</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">RIGHT</span> <span class="k">JOIN</span> <span class="n">posts</span> <span class="k">ON</span> <span class="n">posts</span><span class="p">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">users</span><span class="p">.</span><span class="n">id</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, which table is the right table? The right table is still the posts table. To identify the right table, first identify the left table. The left table is the table that comes immediately after the<code>FROM</code> keyword, which is the users table. This automatically makes the posts table the right table.</p>
+
+<p>Now we get it but let's bookmark this blog post because I know we'll forget again 😉.</p>

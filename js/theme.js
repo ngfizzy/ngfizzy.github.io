@@ -1,7 +1,19 @@
 (function () {
   var STORAGE_KEY = 'ngfizzy-theme';
   var root = document.documentElement;
+  root.classList.add('js-enabled');
   var toggle = document.querySelector('[data-theme-toggle]');
+
+  try {
+    var storedTheme = localStorage.getItem(STORAGE_KEY);
+
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      root.dataset.theme = storedTheme;
+    }
+  } catch (error) {
+    // Storage can be unavailable; the system preference still applies.
+  }
+
   var systemPrefersLight = typeof window.matchMedia === 'function'
     ? window.matchMedia('(prefers-color-scheme: light)')
     : { matches: false };

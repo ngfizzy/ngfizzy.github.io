@@ -8,7 +8,46 @@ const stylesheetPath = path.join(root, 'css', 'site.css');
 const sketchPath = path.join(root, 'images', 'home-img-sketch.png');
 const servedSketchPath = path.join(root, 'images', 'home-img-sketch.jpg');
 const themeScriptPath = path.join(root, 'js', 'theme.js');
+const blogIndexPath = path.join(root, 'blog', 'index.html');
+const blogPostPath = path.join(root, 'blog', 'opinion', '2026-08-14-friday-checkout-say-what.html');
+const blogSourcePath = path.join(root, 'blog', 'opinion', '2026-08-14-friday-checkout-say-what.md');
 const index = fs.readFileSync(indexPath, 'utf8');
+const blogIndex = fs.readFileSync(blogIndexPath, 'utf8');
+const blogPost = fs.readFileSync(blogPostPath, 'utf8');
+const blogSource = fs.readFileSync(blogSourcePath, 'utf8');
+const additionalBlogSlugs = [
+  '2026-07-31-knowing-when-not-to-optimize',
+  '2026-07-27-if-you-cannot-explain-the-work',
+  '2026-07-24-cut-through-the-noise',
+  '2026-07-20-ai-at-work-hiring-process',
+  '2026-07-17-attention-is-all-you-need',
+  '2026-07-13-claude-code-stay-inside-the-frame',
+];
+const additionalBlogFiles = additionalBlogSlugs.flatMap((slug) => [
+  [`blog/opinion/${slug}.html`, fs.readFileSync(path.join(root, 'blog', 'opinion', `${slug}.html`), 'utf8')],
+  [`blog/opinion/${slug}.md`, fs.readFileSync(path.join(root, 'blog', 'opinion', `${slug}.md`), 'utf8')],
+]);
+const technicalBlogSlugs = [
+  '2023-10-05-hot-take-knowing-how-to-code-does-not-make-you-a-software-engineer-37al',
+  '2023-10-10-beginner-topic-file-upload-with-multer-in-nodejs-99m',
+  '2023-10-11-hot-take-you-burnt-out-and-it-was-your-fault-14og',
+  '2023-10-13-tool-preview-markdown-document-on-your-terminal-2n8d',
+  '2023-10-17-postgresql-pseudocolumns-ctid-108a',
+  '2023-10-19-tip-never-forget-a-consolelog-in-your-patch-again-4c3b',
+  '2023-10-20-frontend-vs-backend-an-objective-look-14f0',
+  '2023-10-22-sql-joins-identifying-the-left-and-right-table-4nkb',
+  '2023-10-24-you-dont-need-axios-34j9',
+  '2023-11-01-containers-the-what-why-and-how-391n',
+  '2023-11-08-docker-and-kubernetes-from-localhost-to-production-kubernetes-container-orchestrators-the-what-why-and-how-42gg',
+  '2023-11-10-infer-function-return-type-in-typescript-4mko',
+  '2023-11-23-kubernetes-services-expose-your-app-to-the-internet-o13',
+  '2023-11-28-future-of-software-engineering-is-maintainability-still-important-2b0',
+  '2023-12-09-notify-yourself-after-completing-a-long-running-bash-process-5f42',
+];
+const technicalBlogFiles = technicalBlogSlugs.flatMap((slug) => [
+  [`blog/technical/${slug}.html`, fs.readFileSync(path.join(root, 'blog', 'technical', `${slug}.html`), 'utf8')],
+  [`blog/technical/${slug}.md`, fs.readFileSync(path.join(root, 'blog', 'technical', `${slug}.md`), 'utf8')],
+]);
 // Matches the wordmark link and its decorative image without pinning attribute
 // order, so unrelated attributes can be added without a spurious failure.
 const WORDMARK_LINK_WITH_DECORATIVE_SKETCH_RE = /<a\s+class="wordmark"[^>]*aria-label="Olufisayo Bamidele home"[^>]*>\s*<img\s+[^>]*alt=""[^>]*>\s*<\/a>/;
@@ -48,6 +87,14 @@ const requiredSnippets = [
   'The Linux Foundation, Safaricom Digifarm, Quoter, and CleanChoice Energy',
 ];
 
+const blogRequiredSnippets = [
+  ['blog/index.html', blogIndex, 'opinion/2026-08-14-friday-checkout-say-what.html'],
+  ['blog/opinion/2026-08-14-friday-checkout-say-what.html', blogPost, 'Friday Checkout: Say What?'],
+  ['blog/opinion/2026-08-14-friday-checkout-say-what.md', blogSource, 'date: 2026-08-14'],
+  ['blog/opinion/2026-08-14-friday-checkout-say-what.md', blogSource, 'exactly once.'],
+  ['blog/opinion/2026-08-14-friday-checkout-say-what.html', blogPost, 'exactly once.</blockquote>'],
+];
+
 // Contact routes the author keeps private. Matched by scheme and host so the
 // removed address and handle stay out of this file too.
 const forbiddenSnippets = [
@@ -77,6 +124,11 @@ const themeScript = fs.readFileSync(themeScriptPath, 'utf8');
 const stylesheet = fs.readFileSync(stylesheetPath, 'utf8');
 const authoredSources = [
   ['index.html', index],
+  ['blog/index.html', blogIndex],
+  ['blog/opinion/2026-08-14-friday-checkout-say-what.html', blogPost],
+  ['blog/opinion/2026-08-14-friday-checkout-say-what.md', blogSource],
+  ...additionalBlogFiles,
+  ...technicalBlogFiles,
   ['css/site.css', stylesheet],
   ['js/theme.js', themeScript],
 ];
@@ -84,6 +136,60 @@ const authoredSources = [
 for (const [label, source] of [['index.html', index], ['js/theme.js', themeScript]]) {
   if (!source.includes(THEME_STORAGE_KEY)) {
     throw new Error(`${label} must use the '${THEME_STORAGE_KEY}' storage key to persist the theme.`);
+  }
+}
+
+for (const [label, source, snippet] of blogRequiredSnippets) {
+  if (!source.includes(snippet)) {
+    throw new Error(`Expected blog content is missing from ${label}: ${snippet}`);
+  }
+}
+
+for (const [label, source] of [['blog/index.html', blogIndex], ['blog/opinion/2026-08-14-friday-checkout-say-what.html', blogPost]]) {
+  if (!source.includes('data-theme-toggle') || !source.includes('ngfizzy-theme')) {
+    throw new Error(`${label} must preserve the shared theme contract.`);
+  }
+}
+
+if (!themeScript.includes("localStorage.getItem(STORAGE_KEY)")) {
+  throw new Error('The theme runtime must restore the saved theme before wiring the toggle.');
+}
+
+for (const slug of additionalBlogSlugs) {
+  const htmlLabel = `blog/opinion/${slug}.html`;
+  const markdownLabel = `blog/opinion/${slug}.md`;
+  const htmlSource = Object.fromEntries(additionalBlogFiles)[htmlLabel];
+  const markdownSource = Object.fromEntries(additionalBlogFiles)[markdownLabel];
+
+  if (!blogIndex.includes(`${slug}.html`)) {
+    throw new Error(`The blog index must link to ${htmlLabel}.`);
+  }
+
+  if (!htmlSource.includes('data-theme-toggle') || !htmlSource.includes('theme.js')) {
+    throw new Error(`${htmlLabel} must preserve the shared theme contract.`);
+  }
+
+  if (!markdownSource.startsWith('---\n') || !markdownSource.includes('title:') || !markdownSource.includes('description:')) {
+    throw new Error(`${markdownLabel} must contain title and description front matter.`);
+  }
+}
+
+for (const slug of technicalBlogSlugs) {
+  const htmlLabel = `blog/technical/${slug}.html`;
+  const markdownLabel = `blog/technical/${slug}.md`;
+  const htmlSource = Object.fromEntries(technicalBlogFiles)[htmlLabel];
+  const markdownSource = Object.fromEntries(technicalBlogFiles)[markdownLabel];
+
+  if (!blogIndex.includes(`${slug}.html`)) {
+    throw new Error(`The blog index must link to ${htmlLabel}.`);
+  }
+
+  if (!htmlSource.includes('data-theme-toggle') || !htmlSource.includes('theme.js')) {
+    throw new Error(`${htmlLabel} must preserve the shared theme contract.`);
+  }
+
+  if (!markdownSource.startsWith('---\n') || !markdownSource.includes('title:') || !markdownSource.includes('description:')) {
+    throw new Error(`${markdownLabel} must contain title and description front matter.`);
   }
 }
 

@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="TLDR; stage your changes git add . -p to slow down your personal code review process.  Yes, we&#x27;ve all..."><title>Tip: Never Forget a console.log In Your Patch Again — Olufisayo Bamidele</title><link rel="stylesheet" href="../../css/site.css"></head><body><header class="site-header"><div class="site-header-inner glass-panel"><a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home"><img src="../../images/home-img-sketch.jpg" alt=""></a><nav aria-label="Primary navigation"><a class="pill" href="../">Writing</a><a class="pill" href="../../#work">Work</a><a class="pill" href="../../#contact">Contact</a><button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme"><span class="theme-toggle-icon" aria-hidden="true">☀</span></button></nav></div></header><main class="blog-shell blog-post"><article><p class="eyebrow">October 19, 2023</p><h1>Tip: Never Forget a console.log In Your Patch Again</h1><p class="post-description">TLDR; stage your changes git add . -p to slow down your personal code review process.  Yes, we&#x27;ve all...</p><div class="post-content"><p><strong>TLDR;</strong> stage your changes <code>git add . -p</code> to slow down your personal code review process.</p>
+
+<p>Yes, we've all been there. You've spent the last 5 hours looking for a bug in your codebase and finally came up with a fix. You implemented the patch and removed all your log statements or thought you did. You called for a review only to get rejected because you left some unnecessary logs in your patch.</p>
+
+<h2>
+  <a name="have-you-tried-running-raw-git-add-endraw-with-the-raw-p-endraw-flag" href="#have-you-tried-running-raw-git-add-endraw-with-the-raw-p-endraw-flag">
+  </a>
+  Have you tried running  <code>git add</code> with the <code>-p</code> flag?
+</h2>
+
+<p>With <code>git add &lt;path/to/the/changed/files&gt; -p</code>, git brings back your changes a chunk at a time or, in git lingo, one hunk at a time.</p>
+
+<p><strong>Geek bit:</strong> See <a href="https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html">here</a> for more info about what a hunk is. </p>
+
+<p>As git gradually reveals the changes you made, it presents the following options:<br>
+y - stage this hunk<br>
+n - do not stage this hunk<br>
+q - quit; do not stage this hunk or any of the remaining ones<br>
+a - stage this hunk and all later hunks in the file<br>
+d - do not stage this hunk or any of the later hunks in the file<br>
+e - manually edit the current hunk<br>
+? - print help</p>
+
+<p><strong>Side Note:</strong><br>
+<em>For the <code>e</code> option, git presents Vim as your default editor. Again, you meet Vim 😈 . To change git's default editor from Vim to vscode, run  <code>git config --global core.editor = "code"</code> assuming you have already added vscode to your path variable. I'll advise against this, though; take this opportunity to learn basic Vim motions.</em></p>
+
+<p>Once git has presented you with all the hunks, you'd be left with only the ones you accepted. The rejected hunks would be left unstaged. Staging your file in git like this allows you to slow down and do a personal code review, allowing you to catch those annoying leftover comments, logs, and debug statements.</p>
+
+<h2>
+  <a name="gotchas" href="#gotchas">
+  </a>
+  Gotchas
+</h2>
+
+<p>The <code>-p</code> flag only works for files already known by git. If you've never staged a file before, git will never present you with hunks from new files because there are no hunks. A hunk is nothing but a diff between the previous version of a file and the newest version, revealed one chunk at a time. There is nothing to diff for a new file, so I like to stage new files with the <code>-N</code> flag, i.e., <code>git add . -N</code>. The "N" flag does not stage the new file but instructs git that you intend to do so later. Now git knows about the file and will present the entire file to you when you're staging your changes with the <code>-p</code> flag.</p>
+
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>I couldn't think of a way to conclude this article, so I inserted a dry joke here.👇🏽</p>
+
+<p>If git is a tool, and this article presents tips about git,  does that make it a tooltip❓🤔</p>
+
+<p>Okay, I'll give you the time to cringe now. See you on the next one.</p></div></article></main><script src="../../js/theme.js"></script></body></html>

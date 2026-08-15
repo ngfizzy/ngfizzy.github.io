@@ -1,0 +1,192 @@
+---
+title: "Infer Function Return Type In Typescript"
+date: 2023-11-10
+description: "Scenario   You are using a function called doFunkyStuff from a library called funky-lib. Do..."
+---
+
+<h2>
+  <a name="scenario" href="#scenario">
+  </a>
+  Scenario
+</h2>
+
+<p>You are using a function called <code>doFunkyStuff</code> from a library called <code>funky-lib</code>. Do <code>doFunkyStuff</code> returns an <code>interface FunkyStuff</code>, but <code>funky-lib</code> does not export <code>FunkyStuff</code></p>
+
+<p><strong>The lib code</strong><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="c1">// node_modules/funcky-lib/index.ts</span>
+
+<span class="kr">interface</span> <span class="nx">FunkyStuff</span> <span class="p">{</span>
+    <span class="nl">message</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span>
+    <span class="nx">funkinessLevel</span><span class="p">:</span> <span class="kr">number</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">doFunkyStuff</span><span class="p">():</span> <span class="nx">FunkyStuff</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">doing funky stuff</span><span class="dl">'</span><span class="p">)</span>
+
+   <span class="k">return</span> <span class="p">{</span>
+      <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">did some funky stuff</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">funkinessLevel</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">(),</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Our Code</strong><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="c1">// index.ts</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">doFunkyStuff</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">funky-stuff</span><span class="dl">'</span>
+
+<span class="c1">// eslint yells no-explicit-any</span>
+<span class="kd">function</span> <span class="nx">repeatFunkyStuff</span><span class="p">(</span><span class="nx">fStuff</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">repeating funky stuff</span><span class="dl">'</span><span class="p">,</span> <span class="nx">fStuff</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="p">{...</span><span class="nx">fStuff</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">repeatFunkyStuff</span><span class="p">(</span><span class="nx">doFunkyStuff</span><span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Depending on your eslint-config, eslint would either yell "no-implicit-any" or "no-explicit-any"</p>
+
+<h2>
+  <a name="bad-solution" href="#bad-solution">
+  </a>
+  Bad Solution
+</h2>
+
+<p>Redefine <code>FunkyStuff</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="kd">function</span> <span class="nx">repeatFunkyStuff</span><span class="p">(</span><span class="nx">fStuff</span><span class="p">:</span> <span class="p">{</span> <span class="nl">message</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span> <span class="nl">funkinessLevel</span><span class="p">:</span> <span class="kr">number</span><span class="p">})</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The solution above is bad because it becomes unreadable if <code>FunkyStuff</code> has more than a handful of properties.</p>
+
+<p>Also, we must update our code each time something changes in  <code>FunkyStuff</code>.</p>
+
+<h2>
+  <a name="good-solution" href="#good-solution">
+  </a>
+  Good solution
+</h2>
+
+<p>Use the <code>ReturnType</code> utility type.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="c1">// our code in index.ts</span>
+<span class="p">...</span>
+<span class="kd">type</span> <span class="nx">AppFunkyStuff</span> <span class="o">=</span> <span class="nx">ReturnType</span><span class="o">&lt;</span><span class="k">typeof</span> <span class="nx">doFunkyStuff</span><span class="o">&gt;</span>
+
+<span class="kd">function</span> <span class="nx">repeatFunkyStuff</span><span class="p">(</span><span class="nx">fStuff</span><span class="p">:</span> <span class="nx">AppFunkyStuff</span><span class="p">)</span> <span class="p">{</span>
+   <span class="p">...</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="bonus" href="#bonus">
+  </a>
+  Bonus
+</h2>
+
+<p>You can combine <code>ReturnType&lt;T&gt;</code> with <code>Awaited&lt;T&gt;</code> util type for functions that return promises.</p>
+
+<p>Assuming <code>doFunkyStuff</code> returns Promise, then <code>AppFunkyStuff</code> would be defined like this.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="kd">type</span> <span class="nx">AppFunkyStuff</span> <span class="o">=</span> <span class="nx">Awaited</span><span class="o">&lt;</span><span class="nx">ReturnType</span><span class="o">&lt;</span><span class="k">typeof</span> <span class="nx">doFunkyStuff</span><span class="o">&gt;&gt;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<blockquote>
+<p>⚠️ Awaited util became only available in typescript 4.5. Achieving the same effect can be a little tricky. Previous versions</p>
+</blockquote>
+
+<h2>
+  <a name="summary" href="#summary">
+  </a>
+  Summary
+</h2>
+
+<p>This tip is just the tip of the iceberg regarding what typescript offers.</p>
