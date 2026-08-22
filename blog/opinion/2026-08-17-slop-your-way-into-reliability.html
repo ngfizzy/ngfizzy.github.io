@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Some generated code should be written with the expectation that you may never read it.">
+    <title>Monday Check-in: Slop Your Way Into Reliability — Olufisayo Bamidele</title>
+    <link rel="stylesheet" href="../../css/site.css">
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ngfizzy-theme');
+
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch (error) {
+          // Storage can be unavailable; the system preference still applies.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner glass-panel">
+        <a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home">
+          <img src="../../images/home-img-sketch.jpg" alt="">
+        </a>
+        <nav aria-label="Primary navigation">
+          <a class="pill" href="../">Writing</a>
+          <a class="pill" href="../../#work">Work</a>
+          <a class="pill" href="../../#contact">Contact</a>
+          <button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+            <span class="theme-toggle-icon" aria-hidden="true">☀</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="blog-shell blog-post">
+      <article>
+        <p class="eyebrow">August 17, 2026</p>
+        <h1>Monday Check-in: Slop Your Way Into Reliability</h1>
+        <p class="post-description">Some generated code should be written with the expectation that you may never read it.</p>
+        <div class="post-content">
+          <p>While the debate over whether we should read all AI-generated code is still going on, I think I’ve landed somewhere close to Theo’s side(<a href="https://lnkd.in/dpCcji9P">https://lnkd.in/dpCcji9P</a>).</p>
+          <p>Some generated code should be written with the expectation that you may never read it.</p>
+          <p>I just don’t think production code belongs in that category.</p>
+          <p>I read every line of generated code that goes into production. At least, every line I generate for my employer.</p>
+          <p>That is the code the customer eventually consumes, and if I’m responsible for shipping it, I want to understand what went in.</p>
+          <p>My personal projects are slightly different.</p>
+          <p>There, I’m increasingly trying to build abstractions that reduce how much new code I need to write as the codebase matures.</p>
+          <p>You can imagine it as slowly building my own standard library around the domain.</p>
+          <p>The stable parts change less. New features become different ways of stitching those pieces together with control structures.</p>
+          <p>It requires more thought about program design upfront, but the payoff is that I’m actually writing less new code per feature over time.</p>
+          <p>Then there is the code I barely read.</p>
+          <p>Tests are one example.</p>
+          <p>Before LLMs, pushing towards extremely high test coverage often felt like high effort for a metric that could still be gamed.</p>
+          <p>Today, generating a large test harness is cheap enough that I’d rather go all in.</p>
+          <p>90% coverage or nothing.</p>
+          <p>But I don’t carefully read every generated test.</p>
+          <p>I pay particular attention when an existing test is modified or deleted.</p>
+          <p>That is a signal.</p>
+          <p>Something that described how the system worked yesterday has changed. I want to know whether that behavioural change was intentional.</p>
+          <p>New tests? I mostly scan them.</p>
+          <p>The second category is something I call slop QA.</p>
+          <p>My slop QA is a collection of throwaway scripts generated from the task description to simulate how a human might interact with the system.</p>
+          <p>Click this.</p>
+          <p>Send this request.</p>
+          <p>Create this thing.</p>
+          <p>Change that value.</p>
+          <p>Try the unhappy path.</p>
+          <p>The scripts are version-controlled locally, and my agent instructions require the results to be written into an MD file.</p>
+          <p>The agent also has to tell me what it could not test and why.</p>
+          <p>Sometimes that becomes the next instruction: figure out how to test the thing you could not test.</p>
+          <p>I barely read these scripts.</p>
+          <p>I care much more about what they exercised, what happened, and what remains untested.</p>
+          <p>If the agent gets stuck, then I start looking at the machinery.</p>
+          <p>So, do I read AI-generated code?</p>
+          <p>Most production code, yes.</p>
+          <p>Test harnesses, throwaway scripts and slop QA? Barely.</p>
+          <p>AI has made code cheap enough that some code can simply be scaffolding around the thing I actually care about.</p>
+          <p>The important part is knowing which code deserves your attention.</p>
+          <p>More on slop QA in Friday’s checkout.</p>
+        </div>
+      </article>
+    </main>
+    <script src="../../js/theme.js"></script>
+  </body>
+</html>
