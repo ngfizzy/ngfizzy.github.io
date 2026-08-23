@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A small pair of skills for making verbose AI output easier to understand without flattening the vocabulary.">
+    <title>Friday Checkout: Say What? — Olufisayo Bamidele</title>
+    <link rel="stylesheet" href="../../css/site.css">
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ngfizzy-theme');
+
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch (error) {
+          // Storage can be unavailable; the system preference still applies.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner glass-panel">
+        <a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home">
+          <img src="../../images/home-img-sketch.jpg" alt="">
+        </a>
+        <nav aria-label="Primary navigation">
+          <a class="pill" href="../">Writing</a>
+          <a class="pill" href="../../#work">Work</a>
+          <a class="pill" href="../../#contact">Contact</a>
+          <button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+            <span class="theme-toggle-icon" aria-hidden="true">☀</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="blog-shell blog-post">
+      <article>
+        <p class="eyebrow">August 14, 2026</p>
+        <h1>Friday Checkout: Say What?</h1>
+        <p class="post-description">A small pair of skills for making verbose AI output easier to understand without flattening the vocabulary.</p>
+        <div class="post-content">
+          <p>I have missed the last two Friday Checkouts. The past couple of weeks have been full: onboarding a new teammate, keeping up with multiple streams of work, and a busy stretch in my personal life. It has felt like juggling twenty balls at once.</p>
+          <p>But we are back.</p>
+          <p>Today, I want to share a small solution to a problem I mentioned in my last Monday Check-in: AI verbosity.</p>
+          <p>AI can be useful. It can also be exhausting.</p>
+          <p>Sometimes an agent gives you a 1,500-word essay when the real answer is:</p>
+          <blockquote>“I would refactor this class into two: one publishes and the other subscribes.”</blockquote>
+          <p>You could ignore the long explanations. But one time out of ten, there is something important buried inside them. So you read everything. Every single time.</p>
+          <p>That is the cognitive overload I am talking about.</p>
+          <p>So I use two small skills:</p>
+          <ol>
+            <li><a href="https://github.com/ngfizzy/skills/blob/main/skills/better-docs/SKILL.md">better-docs</a> rewrites jargon-heavy technical docs writing into language I can follow without losing the important meaning.</li>
+            <li><a href="https://github.com/ngfizzy/skills/blob/main/skills/say-what/SKILL.md">say-what?</a> lets me ask the agent to explain what it just said, inline, using the rules from better-docs.</li>
+          </ol>
+          <p>For example, I gave an agent a very dense explanation of moving from polling to WebSockets: persistent connections, event channels, retries, backpressure, snapshots, ordered deltas, deduplication, and recovery.</p>
+          <p>Then I asked:</p>
+          <p><code>/say-what?</code></p>
+          <p>Here is what I got back:</p>
+          <blockquote>WebSockets let the server tell the app about changes immediately, instead of the app repeatedly asking for updates. Think of polling like checking your mailbox every ten seconds; WebSockets are like keeping a phone call open so the server can speak as soon as something happens. A safe migration keeps polling temporarily as a fallback, handles reconnects and missed updates, and uses event IDs so the client can recover safely. WebSockets are fast, but they do not guarantee that every update arrives exactly once.</blockquote>
+          <p>Same idea.</p>
+          <p>Far less effort to understand.</p>
+          <p>You might ask: why not put this in a personality prompt or an <code>AGENTS.md</code> file?</p>
+          <p>Two reasons.</p>
+          <p>First, agents are discovery tools for me as much as they are execution tools. I still want to encounter unfamiliar technical terms and learn what they mean. I do not want every response flattened before I have a chance to see the real vocabulary.</p>
+          <p>Second, turning a useful prompt into a skill makes it easier to evolve, reuse, and carry across projects and machines. <code>AGENTS.md</code> files are usually project- or machine-specific. Skills can become more portable.</p>
+          <p>If this is useful to you, the repository includes installation scripts. You can also just copy the instructions directly. It is MIT-licensed.</p>
+          <p>Over the coming weeks and months, more of my private skills will follow the same path: start close to the work, prove themselves through real use, then gradually shed project-specific details until the reusable parts are ready for the skills repository.</p>
+          <p>That is Friday Checkout. Enjoy your weekend</p>
+        </div>
+      </article>
+    </main>
+    <script src="../../js/theme.js"></script>
+  </body>
+</html>

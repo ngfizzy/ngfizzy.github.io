@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="If you&#x27;ve recently been initiated into the Vim users cult and, like me,  you also don&#x27;t like leaving..."><title>Tool: Preview Markdown Document on Your Terminal — Olufisayo Bamidele</title><link rel="stylesheet" href="../../css/site.css"></head><body><header class="site-header"><div class="site-header-inner glass-panel"><a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home"><img src="../../images/home-img-sketch.jpg" alt=""></a><nav aria-label="Primary navigation"><a class="pill" href="../">Writing</a><a class="pill" href="../../#work">Work</a><a class="pill" href="../../#contact">Contact</a><button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme"><span class="theme-toggle-icon" aria-hidden="true">☀</span></button></nav></div></header><main class="blog-shell blog-post"><article><p class="eyebrow">October 13, 2023</p><h1>Tool: Preview Markdown Document on Your Terminal</h1><p class="post-description">If you&#x27;ve recently been initiated into the Vim users cult and, like me,  you also don&#x27;t like leaving...</p><div class="post-content"><p>If you've recently been initiated into the Vim users cult and, like me,  you also don't like leaving your terminal that much anymore, you're probably being forced to do so whenever you want to do stuff like previewing your markdown documents. Sweat no more; <code>glow</code> got you covered.</p>
+
+<h2>
+  <a name="installation" href="#installation">
+  </a>
+  Installation
+</h2>
+
+<p>On Mac, <code>brew install glow</code>.</p>
+
+<h2>
+  <a name="usage" href="#usage">
+  </a>
+  Usage
+</h2>
+
+<p>Usage: <code>glow MyWonderfulDoc.md</code></p>
+
+<h2>
+  <a name="alternative-markdown-lynx" href="#alternative-markdown-lynx">
+  </a>
+  Alternative: markdown + lynx
+</h2>
+
+<p><strong>Markdown</strong>: This is a command line tool for converting your MD files to HTML<br>
+<strong>Lynx</strong>: A terminal-based web browser for rendering HTML pages.</p>
+<h3>
+  <a name="installation" href="#installation">
+  </a>
+  Installation
+</h3>
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>brew <span class="nb">install </span>lynx markdown
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<h3>
+  <a name="usage" href="#usage">
+  </a>
+  Usage
+</h3>
+
+<p>Convert your MD file to HTML with markdown and pipe the output to Lynx<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>markdown MyWonderfulDoc.md | lynx <span class="nt">-stdin</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div></div></article></main><script src="../../js/theme.js"></script></body></html>
