@@ -1,0 +1,499 @@
+---
+title: "Docker and Kubernetes From Localhost To Production: Kubernetes - Container Orchestrators, The What, Why and How"
+date: 2023-11-08
+description: "A series about containers"
+---
+
+<blockquote>
+<p>💡 This is a very long article. It is so because Kubernetes pulls many computing concepts along before one can do anything with it. I broke those concepts down as much as possible in this article, but because of the length of this article, I'd encourage the readers to read it three times.<br>
+The first read should be a quick scan to get a general idea of what the article is about. Come back to it at some later point in time for a second read, this time, a slower, more careful read. Then, come back again at a later point in time for a more engaged form of learning. This time, you would take notes, Google unclear terms, ask questions in the comment section, and try out the examples.</p>
+</blockquote>
+
+<h2>
+  <a name="what-is-kubernetes" href="#what-is-kubernetes">
+  </a>
+  What is Kubernetes
+</h2>
+
+<p>Kubernetes is a container orchestrator. Just what exactly does that mean?</p>
+
+<p>In the <a href="https://dev.to/ngfizzy/containers-the-what-why-and-how-391n">previous article</a>, we learned about containers and their role in the deployment/management of web applications.</p>
+
+<p>In modern software engineering, we often find more than one web service communicating with each other over a network to serve a single purpose. For example, an e-commerce website would have a recommendation-service that recommends products to users based on their preferences, a cart-service that takes care of items in the user's cart, a payment-gateway-service that integrates multiple payment services, etc. Services that work in coordination as described above are called <em>Distributed Systems</em>, but you might be more familiar with the buzzword <strong>Microservices</strong>.</p>
+
+<p><strong>Microservices</strong> are distributed systems that contain <em>highly specialized</em> web services. They are also usually deployed in containers due to their lightweight and scalable nature. Learn why containers are lightweight in the <a href="https://dev.to/ngfizzy/containers-the-what-why-and-how-391n">previous article</a></p>
+
+<p>When deploying a group of services,  a container orchestrator becomes critical. An orchestrator ensures the deployed services adhere to the configuration specified during the deployment. A developer(or a platform engineer) would give a configuration file that describes the desired state of the distributed system.  The configuration usually looks something like this in human language.</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What are you trying to configure?</td>
+<td>A deployment</td>
+</tr>
+<tr>
+<td>How Can I Find The Executable For the App</td>
+<td>Look for a docker image called <code>auth-service:latest</code> on this machine and run it</td>
+</tr>
+<tr>
+<td>How many CPUs do you want to assign to this app</td>
+<td>1</td>
+</tr>
+<tr>
+<td>How much memory do you want to assign to the app</td>
+<td>1Gi</td>
+</tr>
+</tbody>
+</table></div>
+
+<p>The platform engineer /developer would then submit that configuration to the container orchestrator. Once received, the orchestrator would constantly look at the configuration and compare it to the current state of your app(s). If there is any variation between the comparisons, the orchestrator will automatically adjust the state of your services to match the developer's desired state.</p>
+
+<h2>
+  <a name="lets-learn-those-concepts-by-associating-them-with-concepts-we-already-know" href="#lets-learn-those-concepts-by-associating-them-with-concepts-we-already-know">
+  </a>
+  Let's learn those concepts  by associating them with concepts we already know
+</h2>
+
+<p>In the <a href="https://dev.to/ngfizzy/containers-the-what-why-and-how-391n">previous article</a> in this series, I drew a parallel comparison between a program and a container. As a reminder, a program that is running is called a <em>process</em>, and an image that is running is a container. Let's continue with that analogy.</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Processes</th>
+<th>Kubernetes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>At any moment, there are hundreds of processes running in your system. To get a snapshot of all the processes loaded to your computer memory right now, run <code>ps -A</code>
+</td>
+<td>At any point in a distributed system, there is more than one container running in your deployment.</td>
+</tr>
+<tr>
+<td>Most modern laptop CPUs have between 2 to 8 cores, which means they can only execute instructions from 2 to 8 processes at once. To cater to all the processes in memory, a component of the Operating System kernel called the Scheduler ensures that all processes take turns executing a bit of their instructions in fractions of a second. The schedulers(usually more than one) decide which process gets the CPU's attention at any time.</td>
+<td>A cloud platform typically has millions of machines that they configure to act like one or multiple supercomputers. Orchestrators work like OS schedulers in the cloud, assigning your services to the suitable machine while making sure they are using the right amount of memory, CPU, and disk space.</td>
+</tr>
+</tbody>
+</table></div>
+
+<h2>
+  <a name="essential-kubernetes-componentsterminologies" href="#essential-kubernetes-componentsterminologies">
+  </a>
+  Essential Kubernetes Components/Terminologies
+</h2>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Wjnw6A3y--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hgf2olxnmj7ru4k39p32.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Wjnw6A3y--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hgf2olxnmj7ru4k39p32.png" alt="Highlevel K8s" loading="lazy" width="800" height="458"></a></p>
+
+<h3>
+  <a name="workload" href="#workload">
+  </a>
+  Workload
+</h3>
+
+<p>A workload is an application(usually a web service) running in Kubernetes. From this point onward, we refer to applications running inside Kubernetes as a workload.</p>
+
+<h3>
+  <a name="pod" href="#pod">
+  </a>
+  Pod
+</h3>
+
+<p>Techies love to wrap things, and Kubernetes is no exception. Kubernetes developers, at some point, decided that containers were not enough; they needed to wrap them within something else called Pods. Whenever you deploy a workload on Kubernetes, Kubernetes puts that workload(i.e., the container your application is running in) inside a pod. So, in Kubernetes, the smallest unit of a deployment is a pod, not a container. </p>
+
+<h4>
+  <a name="lets-associate-pods-with-what-we-already-know" href="#lets-associate-pods-with-what-we-already-know">
+  </a>
+  Let's associate pods with what we already know
+</h4>
+
+<p>An application running on an operating system is called a process. When you run that program in a Docker environment, it becomes a container; When you run your container directly in Kubernetes, it becomes a Pod.</p>
+
+<blockquote>
+<p>⚠️It is possible to run multiple containers inside a single pod just as it is possible to run more than one application inside a single container. However, for 99% of use cases,  you should only have one application running in a container and one container running in a pod. We will discuss the exceptions as we advance in this series.</p>
+</blockquote>
+
+<p>Like many techies, you're probably asking why. Isn't container isolation enough? Are pods not redundant? No, Pods are not redundant. I'll answer this entirely in the Whys section of this article.</p>
+
+<h3>
+  <a name="node" href="#node">
+  </a>
+  Node
+</h3>
+
+<p>Node is Kubernetes' lingo for a physical or virtual machine. Pods run in nodes(Obviously). Before now, I said workload runs in Kubernetes, but the right way to phrase that is "workloads run in nodes." From now on, when talking about computers/machines/virtual machines in the context of Kubernetes, we will refer to them as nodes.</p>
+
+<h3>
+  <a name="cluster" href="#cluster">
+  </a>
+  Cluster
+</h3>
+
+<p>A cluster is a group of Nodes available for your workload(s). A cluster contains one master node and one or more worker nodes. The master node in Kubernetes lingo is called the  Control Pane, while the worker nodes are simply called nodes.</p>
+
+<p><strong>The Control Pane</strong> is the node responsible for assigning workloads to other Nodes. It is the component of Kubernetes that fits more into the OS scheduler analogy. But wait! Does this not suggest that Kubernetes requires at least two machines to work correctly? How are people now able to run them on their laptops? In production, yes, Kubernetes requires at least one Control Pane Node and one Worker Node.  That said, for experimental purposes and local development, it is possible to set up a single-node Kubernetes cluster where a single node serves as both the Control Pane and the Worker.</p>
+
+<blockquote>
+<p>Now, let's learn that concept from bottom to top.<br>
+A cluster contains nodes -&gt; a node runs one or more pods -&gt;  a pod runs containers(most time, one container)</p>
+</blockquote>
+
+<h2>
+  <a name="the-whys" href="#the-whys">
+  </a>
+  The Whys
+</h2>
+
+<h3>
+  <a name="are-containers-not-enough-isolation-why-do-we-need-pods" href="#are-containers-not-enough-isolation-why-do-we-need-pods">
+  </a>
+  Are Containers not Enough Isolation? Why Do We Need Pods?
+</h3>
+
+<p>As redundant as they may look, they serve a purpose. A pod controls how a container can be discovered within a node. One problem it solves is the problem of clashing port bindings on a node. If you bind an internal port of a container to a port on a host machine and you try to bind another container port to that same port, you'll get an error. Pods solve this problem because each pod in a cluster is assigned unique IP addresses at creation time. Pods can communicate using those IP addresses through their node's port.</p>
+
+<h3>
+  <a name="but-why-do-i-need-kubernetes" href="#but-why-do-i-need-kubernetes">
+  </a>
+  But why do I need Kubernetes?
+</h3>
+
+<p>That is a very valid question. After all, there are simpler alternatives like Google Cloud Run, Heroku, AWS Lambda, and many more. I'll answer with a quote from  Eskil Steenberg; </p>
+
+<blockquote>
+<p>In the beginning, you always want results; In the end,  all you've always wanted is control.".</p>
+</blockquote>
+
+<p>When building a product, you want to get to the market quickly and beat your competition. Beyond that stage, things can get very expensive with all these serverless tools. Even Amazon had to <a href="https://www.infoq.com/news/2023/05/prime-ec2-ecs-saves-costs/">move one of its applications off serverless recently</a>.</p>
+
+<p>Beyond scheduling your pods, Kubernetes abstracts underlying infrastructure, exposing them to you as just resources (resources such as memory, disk, and CPUs, giving you an illusion that all your web services are running on a humongous machine and you can assign resources to each application by simply specifying the amount of memory, CPU and disk space it needs; This is the kind of control required by scaleups and enterprises.</p>
+
+<h3>
+  <a name="but-i-only-have-a-portfolio-website-why-should-i-use-kubernetes" href="#but-i-only-have-a-portfolio-website-why-should-i-use-kubernetes">
+  </a>
+  But I Only Have A Portfolio Website. Why should I use Kubernetes?
+</h3>
+
+<p>Please don't unless you enjoy pain 🙊. </p>
+
+<h3>
+  <a name="why-is-it-so-complicated" href="#why-is-it-so-complicated">
+  </a>
+  Why is it so complicated?
+</h3>
+
+<p>Well, it is, and it's not. If you asked a regular developer, it probably is. If you ask a system admin who's had to provision virtual machines manually in the past, supervise port mappings, sit and watch system logs to figure out when something is wrong with one of the numerous applications running on his servers, and manually restart applications on VMS when they crash, to me, Kubernetes is not that complicated.</p>
+
+<p>Don't get me wrong, I'm not insinuating that Kubernetes is easy, but it's not rocket science; it's learnable. Programming was complex, but you learned it; Kubernetes is no different.</p>
+
+<h2>
+  <a name="the-how" href="#the-how">
+  </a>
+  The How
+</h2>
+
+<h3>
+  <a name="how-to-set-up-kubernetes-on-your-computer-system" href="#how-to-set-up-kubernetes-on-your-computer-system">
+  </a>
+  How to Set up Kubernetes On Your Computer System
+</h3>
+
+<p>I'm currently on a Macbook; I'll speak quickly about setup on macOS. If you need step-by-step instructions about how to set it up on Windows and Linux, drop a comment, and I'm sure either I or other members of the community would help out.</p>
+
+<p><strong>Step 1:</strong> Download and install Docker Desktop for Mac. Follow the instructions <a href="https://docs.docker.com/desktop/install/mac-install/">here</a><br>
+<strong>Step 2:</strong> Once you start the docker desktop, go to settings. Under settings, click on the Kubernetes tab. In this tab, you'll see a check box with a label that says "Enable Kubernetes". Click on the check box and then the apply and restart button.<br>
+<strong>Step 3:</strong> Confirm that you have Kubernetes by running with the command, <code>kubectl cluster-info</code>. You should see an output that looks like the screenshot below.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yq6j_Caj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a591vbf3qwvit5aw40qc.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yq6j_Caj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a591vbf3qwvit5aw40qc.png" alt="cluster-info output" loading="lazy" width="800" height="80"></a></p>
+<h3>
+  <a name="lets-get-a-simple-application-to-work-with" href="#lets-get-a-simple-application-to-work-with">
+  </a>
+  Let's get a simple application to work with
+</h3>
+
+<p>In the <a href="https://dev.to/ngfizzy/containers-the-what-why-and-how-391n">previous article</a>, we ran <a href="https://github.com/ngfizzy/blog-demos/tree/main/docker-and-k8s-from-localhost-to-prod/node-echo">a simple echo</a> server written in nodejs inside a container. We would continue from where that post stopped.</p>
+
+<p><strong>Step 1:</strong> Clone the repository, cd into the <code>docker-and-k8s-from-localhost-to-prod</code> directory. Duplicate the folder called <code>node-echo</code> and rename the duplicate to <code>k8s-node-echo</code> and <code>cd</code> into it.</p>
+
+<p><strong>Step 2:</strong> Build the application as a docker image<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>docker build <span class="nt">-f</span> Dockerfile <span class="nb">.</span> <span class="nt">-t</span>  node-echo
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="run-the-image-in-a-kubernetes-node" href="#run-the-image-in-a-kubernetes-node">
+  </a>
+  Run the image in a Kubernetes node
+</h3>
+
+<h4>
+  <a name="step-1-create-a-kubernetes-deployment-config" href="#step-1-create-a-kubernetes-deployment-config">
+  </a>
+  Step 1: Create a Kubernetes <em>Deployment</em> Config
+</h4>
+
+<p>Kubernetes accepts configuration in YAML or JSON format. I'll choose YAML because it's the most popular choice in the community. Besides, it allows me to add comments to explain my configuration, so it is a favorable choice for tutorials like this.</p>
+
+<p>Create a file called node-echo-deployment.yaml and add the following config to it. It's preferrable if you type it out yourself. I have added an explanation to each line of the config<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="c1"># The kubernetes api version; because kubernetes' api is constantly revised</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
+<span class="c1"># The Kubernetes object that we are defining with this configuration. In this case, it's a Deployment</span>
+<span class="c1"># A deployment is a Kubernetes _Object_ that stores desired state of pods</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="c1"># We are just giving a human-readable name to this deployment here</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">node-echo-deployment</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="c1"># We are telling Kubernetes that we only want one instance of our workload to run simultaneously. If this instance crashes for any reason, Kubernetes will create a new instance of our </span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="s">1</span>
+  <span class="c1"># The next 7 lines assign metadata to our node to easily query them in the cluster. More on these later in the series</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">node-echo</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="na">app</span><span class="pi">:</span> <span class="s">node-echo</span>
+    <span class="c1"># From here downward, we are describing how to run our web app to Kubernetes </span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="c1"># We are telling Kubernetes to find the docker image "node-echo:latest" and</span>
+      <span class="c1"># run it as a container. The container's name should also be called node-echo</span>
+      <span class="na">containers</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">node-echo</span>
+          <span class="na">image</span><span class="pi">:</span> <span class="s">node-echo:latest</span>
+          <span class="c1"># Next, we are telling Kubernetes to look for node-echo:latest image on our machine first. if</span>
+          <span class="c1"># If it isn't present on our local machine, then Kubernetes will go look for it on the</span>
+          <span class="c1"># internet</span>
+          <span class="na">imagePullPolicy</span><span class="pi">:</span> <span class="s">IfNotPresent</span>
+          <span class="c1"># The next 4 lines define the limit of the resources that Kubernetes should make available in our app </span>
+          <span class="na">resources</span><span class="pi">:</span>
+            <span class="na">limits</span><span class="pi">:</span>
+              <span class="na">cpu</span><span class="pi">:</span> <span class="s">1</span>
+              <span class="na">memory</span><span class="pi">:</span> <span class="s">256Mi</span>
+          <span class="c1"># We are telling Kubernetes the ports that our workload will be using</span>
+          <span class="na">ports</span><span class="pi">:</span>
+            <span class="c1"># We are giving the port 5001 a name. Similar to declaring a variable</span>
+            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">node-echo-port</span>
+              <span class="na">containerPort</span><span class="pi">:</span> <span class="m">5001</span>
+          <span class="na">livenessProbe</span><span class="pi">:</span>
+            <span class="na">httpGet</span><span class="pi">:</span>
+              <span class="na">path</span><span class="pi">:</span> <span class="s">/</span>
+              <span class="na">port</span><span class="pi">:</span> <span class="s">node-echo-port</span>
+              <span class="c1"># In the 4 lines above, told Kubernetes to check localhost:5001/ in the pod node-echo</span>
+              <span class="c1"># the application is still running properly. If the endpoints return any status code &gt; 299</span>
+              <span class="c1"># kubernetes restarts the application</span>
+          <span class="na">readinessProbe</span><span class="pi">:</span>
+            <span class="na">httpGet</span><span class="pi">:</span>
+              <span class="na">path</span><span class="pi">:</span> <span class="s">/</span>
+              <span class="na">port</span><span class="pi">:</span> <span class="s">node-echo-port</span>
+              <span class="c1"># The 4 lines above defines the endpoint that Kubernetes would check to determine that</span>
+              <span class="c1"># the pod is ready to receive trafic </span>
+          <span class="na">startupProbe</span><span class="pi">:</span> <span class="c1"># configuration for endpoints</span>
+            <span class="na">httpGet</span><span class="pi">:</span>
+              <span class="na">path</span><span class="pi">:</span> <span class="s">/</span>
+              <span class="na">port</span><span class="pi">:</span> <span class="s">node-echo-port</span>
+              <span class="c1"># The 4 lines above are uses by Kubernetes to determine if our application has started </span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Comparing the table in the opening section of this article might clarify this even further.</p>
+
+<h4>
+  <a name="step-2-submit-that-config-to-kubernetes" href="#step-2-submit-that-config-to-kubernetes">
+  </a>
+  Step 2: Submit That Config To Kubernetes
+</h4>
+
+<p>Run <code>kubectl apply -f node-echo-deployment.yaml</code> where the <code>-f</code> flag specifies the file containing your config. If the file has no syntax error, you should get a message that says "deployment.apps/node-echo-deployment created"</p>
+
+<h4>
+  <a name="step-3-confirm-the-created-deployment" href="#step-3-confirm-the-created-deployment">
+  </a>
+  Step 3: Confirm The Created Deployment
+</h4>
+
+<p>To check that your deployments are running, run <code>kubectl get deployments</code>. The output should look similar to the screenshot below.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--qHXKVsKY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hvo2ory2onvzxjxrqqrx.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--qHXKVsKY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hvo2ory2onvzxjxrqqrx.png" alt="Kubectl get deployments output" loading="lazy" width="583" height="69"></a><br>
+You can also see your running pods by running the following command: <code>kubectl get pods</code>. Your output should also look like the screenshot below.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YKQQafll--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k51r55558eb8l8k9usqx.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YKQQafll--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k51r55558eb8l8k9usqx.png" alt="Kubectl get pods output" loading="lazy" width="706" height="76"></a></p>
+<h3>
+  <a name="step-4-test-our-running-workload" href="#step-4-test-our-running-workload">
+  </a>
+  Step 4: Test our running workload
+</h3>
+
+<p>We know that our application is running on the localhost:5001, so if we run<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>curl <span class="nt">-d</span> <span class="s1">'hello'</span> localhost:5001/
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Our server should respond with "Hello", right? No. This is because a Kubernetes cluster's network is Isolated from the outside world by default. Going inside the pod, we can hit that endpoint. What a Bummer! I know, right 🙂? We can't tell users to always enter a pod before they can use our service.</p>
+
+<p>We can fix this by creating another Kubernetes object called a Service. Oh no. 🤦‍♂️ Not another concept, right? Hold on a minute. We are almost done. This is the last concept you have to learn in this article.</p>
+
+<h4>
+  <a name="step-5-create-a-kubernetes-service" href="#step-5-create-a-kubernetes-service">
+  </a>
+  Step 5: Create a Kubernetes Service
+</h4>
+
+<p>A Kubernetes service defines networking between pods and how pod networks are exposed to the internet. There is more to it, but for now, in development, we need the following configuration.</p>
+
+<p>Create a <code>node-echo-service-deployment.yaml</code> file and add the following config.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="c1"># specifying which version of Kubernetes API we are using</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="c1"># Telling Kubernetes that we are configuring a service. </span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Service</span>
+<span class="c1"># assigning some metadata to the services</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="c1"># We are assigning a name to the service here. We are calling it</span>
+  <span class="c1"># node-echo-service</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">node-echo-service</span>
+<span class="c1"># From here below, we are specifying the configuration of the Service</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="c1"># There are different types of services.</span>
+  <span class="c1"># For demo purposes, we stick to NodePort. Node+Port or Machine+Port.</span>
+  <span class="c1"># With this config, we are telling Kubernetes that we would like to bind the Pods port to a Port on the Node running our Pod</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">NodePort</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="c1"># We are specifying the app that we are configuring this service for</span>
+    <span class="c1"># If you go back to the deployment.yaml file, you'd remember that we defined</span>
+    <span class="c1"># this app metadata over there. It has proved to be useful when defining other</span>
+    <span class="c1"># Objects for our deployment</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">node-echo</span>
+  <span class="c1"># Define port mapping</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="c1"># The port that this service would listen on</span>
+    <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="s">80</span>
+      <span class="c1"># The Pod's port to which the Kubernetes service would forward requests.</span>
+      <span class="c1"># This is usually the port that your workload binds to</span>
+      <span class="na">targetPort</span><span class="pi">:</span> <span class="m">5001</span>
+      <span class="c1"># The port on your Node that the service binds to</span>
+      <span class="na">nodePort</span><span class="pi">:</span> <span class="m">30001</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h4>
+  <a name="step-6-submit-the-kubernetes-service-config" href="#step-6-submit-the-kubernetes-service-config">
+  </a>
+  Step 6: Submit the Kubernetes service config
+</h4>
+
+<p>Then run <code>kubectl apply -f node-echo-service.yaml</code>. If your configuration is fine, you should get the following message: <code>service/node-echo-service configured</code></p>
+
+<p>Now we can communicate with our service on <code>localhost:30001/</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>curl <span class="nt">-d</span> <span class="s2">"Hurray!! Now I can talk to my service in Kubernetes"</span> localhost:30001/
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To see all the code base and the configuration files in one, place, check out <a href="https://github.com/ngfizzy/blog-demos/tree/main/docker-and-k8s-from-localhost-to-prod/k8s-node-echo">this repository</a></p>
+
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>In this article, we learned the main pillars of Kubernetes: Cluster -&gt; Node -&gt; Services -&gt;  Deployment -&gt; Pods -&gt; Containers.  We discussed the relevance of Kubernetes and why it can benefit a developer to learn it.</p>
+
+<p>It is OK if everything stays the same. Kubernetes is best learned by trying stuff in it, running into issues, and fixing them.</p>
+
+<p>In the next part of this series, we will go in-depth on services and deploy our <code>node-echo</code> to a cloud provider.</p>
+
+<p>If you learned something, leave a <br>
+reaction, and do not hesitate to correct me if I have mixed up certain explanations.</p>
+
+<p>See you on the next one.</p>

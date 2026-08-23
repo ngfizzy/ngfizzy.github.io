@@ -1,0 +1,356 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="You don&#x27;t need Axios, well, for most use cases. The web is maturing, and the days of Axios are..."><title>You Don&#x27;t Need Axios — Olufisayo Bamidele</title><link rel="stylesheet" href="../../css/site.css"></head><body><header class="site-header"><div class="site-header-inner glass-panel"><a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home"><img src="../../images/home-img-sketch.jpg" alt=""></a><nav aria-label="Primary navigation"><a class="pill" href="../">Writing</a><a class="pill" href="../../#work">Work</a><a class="pill" href="../../#contact">Contact</a><button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme"><span class="theme-toggle-icon" aria-hidden="true">☀</span></button></nav></div></header><main class="blog-shell blog-post"><article><p class="eyebrow">October 24, 2023</p><h1>You Don&#x27;t Need Axios</h1><p class="post-description">You don&#x27;t need Axios, well, for most use cases. The web is maturing, and the days of Axios are...</p><div class="post-content"><p>You don't need Axios, well, for most use cases. The web is maturing, and the days of Axios are ending.</p>
+
+<h2>
+  <a name="why-we-needed-axios" href="#why-we-needed-axios">
+  </a>
+  Why we needed Axios
+</h2>
+
+<p>For newcomers, not long ago, we needed to use <code>XMLHttpRequest</code> to fetch data from servers. To fetch data from <a href="https://jsonplaceholder.typicode.com/todos/">https://jsonplaceholder.typicode.com/todos/</a>, we would have needed the following lines of code at the very minimum.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="kd">const</span> <span class="nx">req</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">load</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">responseText</span><span class="p">))</span>
+<span class="p">})</span>
+
+<span class="nx">req</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">https://jsonplaceholder.typicode.com/todos/</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">req</span><span class="p">.</span><span class="nx">send</span><span class="p">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We needed an elegant abstraction over XMLHttpRequest, and <code>axios</code> filled that space perfectly, especially with the introduction of Promise in ES6.</p>
+
+<p>With <code>axios</code>, we can achieve the same thing with just one line of code<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code>    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://jsonplaceholder.typicode.com/todos/</span><span class="dl">'</span><span class="p">)).</span><span class="nx">data</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>But time has passed, the web has matured, and now, we have <code>fetch()</code></p>
+
+<h2>
+  <a name="use-fetch-instead" href="#use-fetch-instead">
+  </a>
+  Use fetch() Instead
+</h2>
+
+<p>With fetch, you get most of the benefits of Axios with zero external dependencies in your application. I am a proponent of minimal dependencies. If the platform I'm on provides a functionality, and it's relatively easy to implement, I'll explore it first. This is even more important with JavaScript runtimes, as every abstraction comes at a cost.</p>
+
+<h3>
+  <a name="get-request-using-fetch" href="#get-request-using-fetch">
+  </a>
+  GET Request Using Fetch
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code>    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://jsonplaceholder.typicode.com/todos/</span><span class="dl">'</span><span class="p">)).</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="post-request-using-fetch" href="#post-request-using-fetch">
+  </a>
+  POST Request Using Fetch
+</h3>
+
+<p>The fetch API takes in a second parameter, which allows you to specify other options, including your HTTP method, headers, and body. The example below shows how to make a post request using fetch API. This example also applies to other HTTP methods that mutate the server;<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code>    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span>  <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://jsonplaceholder.typicode.com/todos/</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="na">title</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy milk</span><span class="dl">'</span><span class="p">})</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="uploading-files" href="#uploading-files">
+  </a>
+  Uploading Files
+</h3>
+
+<p>Assuming you have the following HTML file<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;</span><span class="err">!</span><span class="na">Docktype</span> <span class="na">html</span><span class="nt">&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">en</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width initial-scale=1.0"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-eqiv=</span><span class="s">"X-UA-Compatibly"</span> <span class="na">content=</span><span class="s">"ie=edge"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;title&gt;</span>File Upload<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"fileform"</span> <span class="na">enctype=</span><span class="s">"multipart/form-data"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"upload"</span>  <span class="na">type=</span><span class="s">"file"</span> <span class="na">placeholder=</span><span class="s">"upload file"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>submit<span class="nt">&lt;/button&gt;</span>
+        <span class="nt">&lt;/form&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"./index.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>then your fetch call would look like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">"</span><span class="s2">fileform</span><span class="dl">"</span><span class="p">)</span>
+
+<span class="nx">form</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">"</span><span class="s2">submit</span><span class="dl">"</span><span class="p">,</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">fileInput</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByName</span><span class="p">(</span><span class="dl">'</span><span class="s1">upload</span><span class="dl">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="kd">const</span> <span class="nx">fd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">()</span>
+    <span class="nx">fd</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="dl">'</span><span class="s1">upload</span><span class="dl">'</span><span class="p">,</span> <span class="nx">fileInput</span><span class="p">.</span><span class="nx">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+    <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">http://localhost:5001/upload</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span> <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span> <span class="na">body</span><span class="p">:</span> <span class="nx">fd</span><span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">body</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">result</span><span class="dl">'</span><span class="p">,</span> <span class="nx">body</span><span class="p">)))</span>
+<span class="p">})</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="pro-tip" href="#pro-tip">
+  </a>
+  Pro Tip
+</h3>
+
+<p>Always wrap your fetch function in with another function; This gives you leeway for abstracting HTTP call patterns emerging as your application grows. See the code snippet below.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code> <span class="kd">const</span> <span class="nx">originalFetch</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">fetch</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">fetch</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="c1">// intercept request</span>
+    <span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">originalFetch</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span>
+    <span class="c1">// intercept response e.g</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
+    <span class="p">}</span> <span class="k">else</span>
+        <span class="c1">//Do whatever you want to handle the error</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="the-whataboutisms" href="#the-whataboutisms">
+  </a>
+  The Whataboutisms
+</h2>
+
+<h3>
+  <a name="what-about-request-and-response-interceptors" href="#what-about-request-and-response-interceptors">
+  </a>
+  What about Request and Response Interceptors
+</h3>
+
+<p>We've talked about that briefly in the previous subheading<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code>    <span class="kd">const</span> <span class="nx">interceptRequest</span> <span class="o">=</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// perform some magic</span>
+        <span class="k">return</span> <span class="nx">args</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">interceptResponse</span> <span class="o">=</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="c1">// perform some magic</span>
+        <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+    <span class="p">}</span>
+
+ <span class="kd">const</span> <span class="nx">originalFetch</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">fetch</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">fetch</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">modifiedArgs</span> <span class="o">=</span> <span class="nx">interceptRequest</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span>
+    <span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">orginalFetch</span><span class="p">(</span><span class="nx">modifiedArgs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">interceptResponse</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h4>
+  <a name="edit-24-oct-2023-more-on-intercepting-requests" href="#edit-24-oct-2023-more-on-intercepting-requests">
+  </a>
+  Edit 24 Oct 2023 More On Intercepting Requests
+</h4>
+
+<p>Due to questions from colleagues, I realized I needed to address this a little more. </p>
+
+<p>To intercept means to stop something from proceeding. Interceptors in HTTP libraries(you could call them middleware), stop requests and modify the request configuration using your provided function. For response, interceptors take raw server responses and modify them based on your logic before returning them to the library consumers.</p>
+
+<p>These can be implemented as simple functions that get called before and after your call to <code>fetch</code></p>
+
+<p>Axios and other JS libraries don't do magic with your interceptors. They only call the functions you give to them and call them for you</p>
+
+<h3>
+  <a name="what-about-timeouts" href="#what-about-timeouts">
+  </a>
+  What About Timeouts
+</h3>
+
+<p>Timeouts should primarily be the business of your backend. It would help if you also had a backend that integrates the third-party platforms, but should you choose to incorporate an unreliable backend with your frontend, you can still implement timeouts with fetch API so<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="c1">// timeout request after 5 seconds</span>
+<span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">https://jsonplaceholder.typicode.com/todos/</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span> <span class="na">abort</span><span class="p">:</span> <span class="nx">AbortSignal</span><span class="p">.</span><span class="nx">timeout</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span> <span class="p">})</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="what-about-javascript-in-the-backend-aka-nodejsdenobun" href="#what-about-javascript-in-the-backend-aka-nodejsdenobun">
+  </a>
+  What About Javascript In The Backend, Aka Nodejs/Deno/Bun
+</h3>
+
+<p>The three significant runtimes now implement fetch, and if you must install any HTTP client for your javascript backend, install <code>undici.</code> Undici is an HTTP client built from the ground for nodejs, and the nodejs organization maintains it. Undici also implements fetch API</p>
+
+<h3>
+  <a name="what-about-a-progress-update-for-large-file-uploads" href="#what-about-a-progress-update-for-large-file-uploads">
+  </a>
+  What about a progress update for large file uploads
+</h3>
+
+<p>Use XMLHttpRequest ;). Unfortunately, fetch() has yet to include this feature.</p>
+
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>Regarding dependencies, I follow the <a href="https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it">YAGNI principle in extreme programming</a>. There is no need to bloat your application with thousands of dependencies. The web is maturing, and like JQuery, axios' time is gradually ending. With current developments, Axios and other popular HTTP client libraries are no longer required to have good developer experience.</p></div></article></main><script src="../../js/theme.js"></script></body></html>

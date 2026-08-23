@@ -1,0 +1,162 @@
+.skills-shell {
+  width: min(calc(100% - 3rem), var(--max-width));
+  margin: 8rem auto 5rem;
+}
+
+.skills-intro {
+  max-width: 48rem;
+  margin-bottom: 4rem;
+}
+
+.skills-intro h1 {
+  max-width: 18ch;
+  margin: 0 0 1.2rem;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+}
+
+.skills-directory {
+  scroll-margin-top: 8rem;
+}
+
+.directory-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.directory-heading h2,
+.detail-header h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.search-field input {
+  width: min(100%, 22rem);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface-soft);
+  color: var(--color-text-primary);
+  font: inherit;
+}
+
+.search-status {
+  min-height: 1.6rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.skill-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.25rem;
+}
+
+.skill-card h3 {
+  margin: 0.4rem 0 0.75rem;
+  font-family: Inter, Poppins, system-ui, sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0;
+}
+
+.skill-card h3 a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+
+.skill-slug {
+  margin-top: 1rem !important;
+  color: var(--color-text-muted) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem !important;
+}
+
+.skill-detail {
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border-strong);
+  scroll-margin-top: 7rem;
+}
+
+.detail-header {
+  max-width: 48rem;
+  margin-bottom: 3rem;
+}
+
+.detail-header .text-link {
+  margin: 0 0 2rem;
+}
+
+.detail-header .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.install-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2rem 0 1.5rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-soft);
+}
+
+.install-box .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.install-box code {
+  color: var(--color-text-primary);
+  font: 600 0.95rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  overflow-wrap: anywhere;
+}
+
+.readme {
+  max-width: 52rem;
+}
+
+.readme h1 {
+  display: none;
+}
+
+.readme h2 {
+  margin-top: 2.5rem;
+}
+
+.readme ul {
+  padding-left: 1.5rem;
+}
+
+.readme code {
+  padding: 0.15rem 0.3rem;
+  border-radius: 0.3rem;
+  background: var(--color-chip);
+  font-size: 0.9em;
+}
+
+.readme li {
+  margin-bottom: 0.55rem;
+}
+
+@media (max-width: 42rem) {
+  .skills-shell {
+    width: min(calc(100% - 1.5rem), var(--max-width));
+    margin-top: 7rem;
+  }
+
+  .directory-heading,
+  .install-box {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .search-field input {
+    width: 100%;
+  }
+}
