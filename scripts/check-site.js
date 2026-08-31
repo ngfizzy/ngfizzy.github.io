@@ -24,11 +24,16 @@ const blogIndex = fs.readFileSync(blogIndexPath, 'utf8');
 const blogPost = fs.readFileSync(blogPostPath, 'utf8');
 const blogSource = fs.readFileSync(blogSourcePath, 'utf8');
 const additionalBlogSlugs = [
+  '2026-08-31-monday-check-in-ai-bubble-other-side-economics',
+  '2026-08-28-friday-checkout-harness-important-model',
+  '2026-08-25-monday-check-in-five-person-unicorn',
   '2026-07-31-knowing-when-not-to-optimize',
   '2026-07-27-if-you-cannot-explain-the-work',
   '2026-07-24-cut-through-the-noise',
   '2026-07-20-ai-at-work-hiring-process',
   '2026-07-17-attention-is-all-you-need',
+  '2026-07-13-monday-check-in-cold-start',
+  '2026-07-10-friday-checkout-code-review-fatigue',
   '2026-07-13-claude-code-stay-inside-the-frame',
 ];
 const additionalBlogFiles = additionalBlogSlugs.flatMap((slug) => [
