@@ -24,6 +24,7 @@ const blogIndex = fs.readFileSync(blogIndexPath, 'utf8');
 const blogPost = fs.readFileSync(blogPostPath, 'utf8');
 const blogSource = fs.readFileSync(blogSourcePath, 'utf8');
 const additionalBlogSlugs = [
+  '2026-09-11-friday-checkout-models-judgment',
   '2026-08-31-monday-check-in-ai-bubble-other-side-economics',
   '2026-08-28-friday-checkout-harness-important-model',
   '2026-08-25-monday-check-in-five-person-unicorn',
