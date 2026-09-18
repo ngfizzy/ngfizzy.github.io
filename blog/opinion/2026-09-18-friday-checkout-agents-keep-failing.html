@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Repeated agent failures can reveal how understandable, documented, and verifiable your codebase is.">
+    <title>Friday Checkout: When Agents Keep Failing, Look at the Codebase — Olufisayo Bamidele</title>
+    <link rel="stylesheet" href="../../css/site.css">
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ngfizzy-theme');
+
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch (error) {
+          // Storage can be unavailable; the system preference still applies.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner glass-panel">
+        <a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home">
+          <img src="../../images/home-img-sketch.jpg" alt="">
+        </a>
+        <nav aria-label="Primary navigation">
+          <a class="pill" href="../">Writing</a>
+          <a class="pill" href="../../#work">Work</a>
+          <a class="pill" href="../../#contact">Contact</a>
+          <button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+            <span class="theme-toggle-icon" aria-hidden="true">☀</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="blog-shell blog-post">
+      <article>
+        <p class="eyebrow">September 18, 2026</p>
+        <h1>Friday Checkout: When Agents Keep Failing, Look at the Codebase</h1>
+        <p class="post-description">Repeated agent failures can reveal how understandable, documented, and verifiable your codebase is.</p>
+        <div class="post-content">
+          <p>If agents are repeatedly screwing up in your codebase, and you’re using models with at least Sonnet-level capability, I’d start looking at the codebase before blaming the model.</p>
+          <p>Because there is a decent chance a new developer would struggle with the same things.</p>
+          <p>A few symptoms I’ve noticed:</p>
+          <p><strong>1. The agent changes one thing and something completely unexpected breaks.</strong></p>
+          <p>That is pretty close to the classical definition of spaghetti code.</p>
+          <p>Parts of the system are coupled in ways that are difficult to reason about, and changing one area has consequences somewhere you would not naturally think to look.</p>
+          <p><strong>2. The agent keeps breaking something that is obvious to you, and you catch it immediately.</strong></p>
+          <p>You probably know something the agent doesn’t.</p>
+          <p>That knowledge should live closer to the codebase.</p>
+          <p>Maybe in documentation. Maybe in an AGENTS.md. Maybe as a test, a type constraint, a comment, or an abstraction that makes the wrong thing harder to do.</p>
+          <p>If the same mistake keeps happening, repeatedly correcting the agent is probably the least useful place to keep that knowledge.</p>
+          <p><strong>3. The implementation usually works, but misses the mark slightly, and you only notice after it goes live.</strong></p>
+          <p>Your codebase may simply be hard to verify.</p>
+          <p>You probably have your own way of checking these things already. Maybe you have to click through five screens, run a weird query, inspect a log, or execute some small script.</p>
+          <p>You’ve done it so many times that the verification process feels automatic to you.</p>
+          <p>The agent doesn’t have that muscle memory.</p>
+          <p>And new devs certainly will not.</p>
+          <p>And if you already have a folder full of little scripts that help you verify changes, give those to the agent too.</p>
+          <p><strong>4. The agents used to perform well, but now they keep making silly mistakes.</strong></p>
+          <p>Before assuming the model suddenly got worse, look at the environment around it.</p>
+          <p>How many skills have you installed?</p>
+          <p>How many plugins and MCPs are loaded?</p>
+          <p>How large has your AGENTS.md or CLAUDE.md become?</p>
+          <p>All of these things consume context and attention. At some point, adding more instructions and tools can make it harder for the agent to focus on the actual task.</p>
+          <p><strong>There is one thing I’m deliberately leaving out here: scale.</strong></p>
+          <p>There are codebases where the problem really is simply the amount of context required to understand the system.</p>
+          <p>But let’s be real, most startups and scale-ups are not running Google-scale codebases.</p>
+          <p>So if a capable agent repeatedly cannot work safely in yours, that is useful information.</p>
+          <p>It may be telling you something about how understandable, documented and verifiable your software actually is.</p>
+          <p>And that’s Friday Checkout.</p>
+          <p><a href="https://www.linkedin.com/pulse/friday-checkout-when-agents-keep-failing-look-olufisayo-bamidele-iw5ef/">Originally published on LinkedIn</a>.</p>
+        </div>
+      </article>
+    </main>
+    <script src="../../js/theme.js"></script>
+  </body>
+</html>
