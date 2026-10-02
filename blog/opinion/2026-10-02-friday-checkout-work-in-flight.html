@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A concise, verified snapshot of parallel agent work makes it easier to return to your desk and know where to put your attention.">
+    <title>Friday Checkout: Work in Flight — Olufisayo Bamidele</title>
+    <link rel="stylesheet" href="../../css/site.css">
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ngfizzy-theme');
+
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch (error) {
+          // Storage can be unavailable; the system preference still applies.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner glass-panel">
+        <a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home">
+          <img src="../../images/home-img-sketch.jpg" alt="">
+        </a>
+        <nav aria-label="Primary navigation">
+          <a class="pill" href="../">Writing</a>
+          <a class="pill" href="../../#work">Work</a>
+          <a class="pill" href="../../#contact">Contact</a>
+          <button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+            <span class="theme-toggle-icon" aria-hidden="true">☀</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="blog-shell blog-post">
+      <article>
+        <p class="eyebrow">October 2, 2026</p>
+        <h1>Friday Checkout: Work in Flight</h1>
+        <p class="post-description">A concise, verified snapshot of parallel agent work makes it easier to return to your desk and know where to put your attention.</p>
+        <div class="post-content">
+          <p><img src="../../images/friday-checkout-work-in-flight.png" alt="Work-in-flight skill: help the user catch up on work in flight by summarizing requests, linked artifacts, remaining work, and lifecycle statuses." loading="lazy"></p>
+          <p>I’m always looking for ways to manage my increasingly parallelised work.</p>
+          <p>Correctness is not really my biggest problem anymore.</p>
+          <p>The problem is keeping agents on goal, making sure parallel work doesn’t quietly fall through the cracks, and being able to return to my desk and quickly understand where everything stands.</p>
+          <p>In recent weeks, there have been mornings where I kick off several agents early enough that most of them are busy for a good part of the day before I even start my 9-to-5.</p>
+          <p>Then work starts.</p>
+          <p>Aside from planned work, my team gets questions from internal users, requests from developers on other teams, PRs I need to review, alerts to triage, and the usual unexpected things that appear during the day.</p>
+          <p>A lot of those also end up delegated to agents.</p>
+          <p>The problem with parallelising work this aggressively is that it becomes incredibly easy for something to fall through the cracks.</p>
+          <p>I often find myself returning to a coordinator session and asking:</p>
+          <p>“So, where were we?”</p>
+          <p>And it gives me a debrief.</p>
+          <p>Except the quality of that debrief varies.</p>
+          <p>Sometimes it is extremely verbose.</p>
+          <p>Sometimes there isn’t enough information to know what I should continue with.</p>
+          <p>Sometimes it is useless spiel.</p>
+          <p>Sometimes it explains everything to me like I’m five.</p>
+          <p>What I actually wanted was something much more specific.</p>
+          <p>So I created a new skill called <a href="https://github.com/ngfizzy/skills/blob/main/skills/work-in-flight/SKILL.md">work-in-flight.</a></p>
+          <p>Its job is simple.</p>
+          <p>When I need to catch up, it reconstructs the work from the conversation and the available project records, checks the current artifacts and statuses where possible, and gives me a concise table showing:</p>
+          <ul>
+            <li>what the request was,</li>
+            <li>the relevant artifacts,</li>
+            <li>what still remains,</li>
+            <li>and the current status.</li>
+          </ul>
+          <p>It also distinguishes between statuses it can verify and ones it has to infer.</p>
+          <p>That last bit matters.</p>
+          <p>A passing test does not mean something has been merged. A completed worker does not necessarily mean the work has shipped. And something sitting locally should not quietly become “done” just because an agent finished touching it.</p>
+          <p>I don’t need another summary of the project.</p>
+          <p>I need a reliable snapshot that lets me sit back down after a few hours away and immediately know where to put my attention.</p>
+          <p>We’re all still figuring out this agentic way of working, and I’m sharing what works for me in real time because I keep meeting very good developers who still mostly treat these tools as “just chatbots.”</p>
+          <p>Once you start running several agents across several pieces of work, the problem changes.</p>
+          <p>You need ways to manage the work around the agents too.</p>
+          <p>And that’s Friday Checkout.</p>
+          <p>Enjoy your weekend.</p>
+          <p>And if you’re reading from Germany, enjoy German Unity Day.</p>
+          <p><a href="https://www.linkedin.com/pulse/friday-checkout-work-flight-olufisayo-bamidele-vvylf/">Originally published on LinkedIn</a>.</p>
+        </div>
+      </article>
+    </main>
+    <script src="../../js/theme.js"></script>
+  </body>
+</html>
