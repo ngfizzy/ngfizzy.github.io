@@ -24,6 +24,8 @@ const blogIndex = fs.readFileSync(blogIndexPath, 'utf8');
 const blogPost = fs.readFileSync(blogPostPath, 'utf8');
 const blogSource = fs.readFileSync(blogSourcePath, 'utf8');
 const additionalBlogSlugs = [
+  '2026-10-02-friday-checkout-work-in-flight',
+  '2026-09-28-monday-check-in-another-gpt-35-moment',
   '2026-09-11-friday-checkout-models-judgment',
   '2026-08-31-monday-check-in-ai-bubble-other-side-economics',
   '2026-08-28-friday-checkout-harness-important-model',
@@ -123,6 +125,19 @@ const blogRequiredSnippets = [
   ['blog/opinion/2026-08-14-friday-checkout-say-what.md', blogSource, 'exactly once.'],
   ['blog/opinion/2026-08-14-friday-checkout-say-what.html', blogPost, 'exactly once.</blockquote>'],
 ];
+
+const workInFlightCover = '../../images/friday-checkout-work-in-flight.png';
+const workInFlightFiles = additionalBlogFiles.filter(([label]) => label.includes('2026-10-02-friday-checkout-work-in-flight.'));
+
+for (const [label, source] of workInFlightFiles) {
+  if (!source.includes(workInFlightCover)) {
+    throw new Error(`${label} must reference the Work in Flight cover.`);
+  }
+}
+
+if (!fs.existsSync(path.join(root, 'images', 'friday-checkout-work-in-flight.png'))) {
+  throw new Error('The Work in Flight cover image is missing.');
+}
 
 // Contact routes the author keeps private. Matched by scheme and host so the
 // removed address and handle stay out of this file too.
