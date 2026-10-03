@@ -257,6 +257,41 @@ for (const [label, source] of authoredSources) {
   }
 }
 
+// Pages are published directly, so discover them rather than keeping a second
+// article list that can miss newly added pages.
+function publicHtmlPaths(directory) {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    if (entry.name.startsWith('.') || ['node_modules', 'scripts', 'test', 'tests'].includes(entry.name)) {
+      return [];
+    }
+
+    const entryPath = path.join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      return publicHtmlPaths(entryPath);
+    }
+
+    return entry.name.endsWith('.html') ? [entryPath] : [];
+  });
+}
+
+for (const htmlPath of publicHtmlPaths(root)) {
+  const label = path.relative(root, htmlPath);
+  const source = fs.readFileSync(htmlPath, 'utf8');
+  const scripts = source.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) || [];
+  const trackers = scripts.filter((script) => script.includes('cloud.umami.is') || script.includes('data-website-id'));
+  const head = source.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || '';
+  const tracker = trackers[0] || '';
+
+  if (trackers.length !== 1 || !head.includes(tracker)
+    || !/\bdefer(?:\s|>)/.test(tracker)
+    || !tracker.includes('src="https://cloud.umami.is/script.js"')
+    || !tracker.includes('data-website-id="25e5abc4-591f-470b-8c81-c0cb05ffc38a"')
+    || !tracker.includes('data-domains="ngfizzy.github.io"')) {
+    throw new Error(`${label} must include exactly one deferred Umami tracker in its head, restricted to ngfizzy.github.io.`);
+  }
+}
+
 const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 const PNG_CRC_TABLE = Array.from({ length: 256 }, (_, index) => {
   let value = index;
