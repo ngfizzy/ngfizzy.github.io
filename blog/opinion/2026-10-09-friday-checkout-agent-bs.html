@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="25e5abc4-591f-470b-8c81-c0cb05ffc38a" data-domains="ngfizzy.github.io"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Vague claims get expensive. Concrete explanations, fresh-context verification, and runtime evidence help expose confident fiction.">
+    <title>Friday Checkout: Agent BS — Olufisayo Bamidele</title>
+    <link rel="stylesheet" href="../../css/site.css">
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ngfizzy-theme');
+
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.dataset.theme = stored;
+          }
+        } catch (error) {
+          // Storage can be unavailable; the system preference still applies.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner glass-panel">
+        <a class="wordmark" href="../../" aria-label="Olufisayo Bamidele home">
+          <img src="../../images/home-img-sketch.jpg" alt="">
+        </a>
+        <nav aria-label="Primary navigation">
+          <a class="pill" href="../">Writing</a>
+          <a class="pill" href="../../#work">Work</a>
+          <a class="pill" href="../../#contact">Contact</a>
+          <button class="pill theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+            <span class="theme-toggle-icon" aria-hidden="true">☀</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="blog-shell blog-post">
+      <article>
+        <p class="eyebrow">October 9, 2026</p>
+        <h1>Friday Checkout: Agent BS</h1>
+        <p class="post-description">Vague claims get expensive. Concrete explanations, fresh-context verification, and runtime evidence help expose confident fiction.</p>
+        <div class="post-content">
+          <p><img src="../../images/friday-checkout-agent-bs.png" alt="Agent BS: Finally learning how to catch them before they eat my time. A man considers his laptop in a home office." width="1672" height="941"></p>
+          <p>AI agents will confidently make false claims about how a system works.</p>
+          <p>We call that hallucination, although I sometimes feel like nobody talks about it anymore because we’ve all just accepted that it happens.</p>
+          <p>The expensive part is not the wrong sentence itself.</p>
+          <p>It is the hour of work and tokens you can burn chasing a dead end that started from that sentence.</p>
+          <p>After working heavily with agents over the past few months, I’ve started developing a gut instinct for when they are making things up.</p>
+          <p>One signal is vague language.</p>
+          <p>Overly general explanations. Sentences padded with technical jargon. An answer that sounds sophisticated but becomes harder to understand the more closely you read it.</p>
+          <p>I’ve learned that if I read a line twice and still don’t understand what it is actually saying, I should stop.</p>
+          <p>Previously, especially when I was tired from information overload, I would sometimes let my eyes glaze over vague explanations and move on.</p>
+          <p>I don’t do that anymore.</p>
+          <p>My tokens are precious to me.</p>
+          <p>This is partly why I created my &quot;say-what&quot; and &quot;better-docs&quot; skills.</p>
+          <p>Simple phrases like:</p>
+          <p>“I don’t get it.”</p>
+          <p>“Say what?”</p>
+          <p>“Wie bitte?”</p>
+          <p>…trigger another attempt at explaining the claim.</p>
+          <p>If it still doesn’t make sense, I ask for an illustration.</p>
+          <p>A diagram.</p>
+          <p>A high-level flow chart.</p>
+          <p>A UI sketch.</p>
+          <p>Anything that forces the agent to make the claim concrete.</p>
+          <p>I’ve noticed something interesting when doing this.</p>
+          <p>The more specific you force the explanation to become, the harder it is for a weak claim to survive.</p>
+          <p>Eventually you start seeing phrases like:</p>
+          <p>“I think I overstated that.”</p>
+          <p>“There is a catch I didn’t consider.”</p>
+          <p>“You’re actually right.”</p>
+          <p>“What I missed was…”</p>
+          <p>That is basically LLM-speak for: the original answer was wrong.</p>
+          <p>The second thing I do is verification from a fresh context.</p>
+          <p>Open another session and ask another agent to verify the claim independently.</p>
+          <p>This works best when the second session does not inherit the same memory or assumptions.</p>
+          <p>I’ve also found it useful to cross providers.</p>
+          <p>If GPT makes a claim that looks suspicious, I might ask Opus to verify it.</p>
+          <p>And vice versa.</p>
+          <p>There is something surprisingly useful about asking one model to review another model’s work.</p>
+          <p>Even just telling Claude, “Codex did this,” seems to put it in a much more adversarial review mode.</p>
+          <p>The third thing is asking for proof.</p>
+          <p>The simplest version is asking for documentation.</p>
+          <p>But even that is not enough.</p>
+          <p>Models can provide a perfectly real link that does not actually support the claim they made.</p>
+          <p>So you still have to read it.</p>
+          <p>Where possible, I now prefer giving the agent tools that let it inspect the actual system.</p>
+          <p>My current team sits underneath several other engineering teams.</p>
+          <p>A lot of our work is asynchronous. We consume thousands of events, and many of the third-party systems we integrate with are asynchronous too.</p>
+          <p>That makes understanding what actually happened difficult even for the engineers working on the system.</p>
+          <p>You can imagine what that environment does to an agent trying to infer behaviour from code alone.</p>
+          <p>There is plenty of room for plausible but completely wrong explanations.</p>
+          <p>This week, I built a harness that can open parts of the system in an isolated environment and let the agent actually operate it.</p>
+          <p>I originally built it for process verification.</p>
+          <p>But I realised afterwards that I had unintentionally made the agent better at documentation too.</p>
+          <p>Instead of only reading the code and guessing how the system behaves, it can now run the system, interact with it and observe what actually happens.</p>
+          <p>The downside is that the agent may work for longer before returning control to me.</p>
+          <p>That is fine.</p>
+          <p>I would rather spend more tokens getting a high-fidelity answer than spend my own time going back and forth correcting a confident fiction.</p>
+          <p>More and more, I’m becoming interested in agent observability.</p>
+          <p>And that interest is slowly pulling me deeper into the AI stack.</p>
+          <p>Formal verification.</p>
+          <p>Explainability.</p>
+          <p>Interpretability.</p>
+          <p>What evidence did the agent actually use?</p>
+          <p>Why did it reach this conclusion?</p>
+          <p>How do we know the explanation corresponds to what the system really did?</p>
+          <p>Those questions are becoming much more interesting to me than simply making the agent faster.</p>
+          <p>And that’s Friday Checkout.</p>
+        </div>
+      </article>
+    </main>
+    <script src="../../js/theme.js"></script>
+  </body>
+</html>
