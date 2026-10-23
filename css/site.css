@@ -18,7 +18,6 @@
   --color-accent: #6f7dff;
   --color-accent-soft: rgba(111, 125, 255, 0.18);
   --color-chip: rgba(255, 255, 255, 0.06);
-  --color-header: rgba(26, 27, 34, 0.82);
   --page-wash:
     radial-gradient(circle at 16% 10%, rgba(255, 255, 255, 0.04), transparent 45%),
     radial-gradient(circle at 82% 88%, rgba(255, 255, 255, 0.03), transparent 48%);
@@ -41,14 +40,13 @@
     --color-text-primary: #1c1f42;
     --color-text-secondary: #4f5475;
     /* Darker than the blog's #6e7596, which is only ~4.4:1 here. Keep it. */
-  --color-text-muted: #5c6285;
+    --color-text-muted: #5c6285;
     --color-accent: #5b5bff;
     --color-accent-soft: rgba(91, 91, 255, 0.16);
     --color-chip: rgba(28, 31, 66, 0.06);
-    --color-header: rgba(255, 255, 255, 0.88);
     --page-wash:
-      radial-gradient(circle at top left, rgba(91, 91, 255, 0.12), transparent 55%),
-      radial-gradient(circle at bottom right, rgba(255, 182, 212, 0.1), transparent 52%);
+      radial-gradient(circle at top left, rgba(91, 91, 255, 0.05), transparent 55%),
+      radial-gradient(circle at bottom right, rgba(255, 182, 212, 0.05), transparent 52%);
     --hero-wash: linear-gradient(140deg, rgba(91, 91, 255, 0.1), rgba(255, 182, 212, 0.12));
     --shadow-soft: 0 20px 60px rgba(19, 25, 60, 0.16);
   }
@@ -68,10 +66,9 @@
   --color-accent: #5b5bff;
   --color-accent-soft: rgba(91, 91, 255, 0.16);
   --color-chip: rgba(28, 31, 66, 0.06);
-  --color-header: rgba(255, 255, 255, 0.88);
   --page-wash:
-    radial-gradient(circle at top left, rgba(91, 91, 255, 0.12), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(255, 182, 212, 0.1), transparent 52%);
+    radial-gradient(circle at top left, rgba(91, 91, 255, 0.05), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(255, 182, 212, 0.05), transparent 52%);
   --hero-wash: linear-gradient(140deg, rgba(91, 91, 255, 0.1), rgba(255, 182, 212, 0.12));
   --shadow-soft: 0 20px 60px rgba(19, 25, 60, 0.16);
 }
@@ -84,8 +81,7 @@
 
 html {
   scroll-behavior: smooth;
-  /* Clears the sticky header so anchor targets are not hidden under it. */
-  scroll-padding-top: 7.5rem;
+  scroll-padding-top: 1.5rem;
 }
 
 html,
@@ -162,21 +158,23 @@ p {
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  padding: 0.35rem 0.9rem;
-  background: var(--color-chip);
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: 0;
+  padding: 0 0.6rem;
+  background: none;
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
-  transition: all var(--transition-base);
+  font-size: 0.95rem;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+  transition: color var(--transition-base);
 }
 
 .pill:hover,
 .pill:focus-visible {
-  border-color: var(--color-accent);
-  background: var(--color-accent-soft);
   color: var(--color-text-primary);
+  text-decoration: underline;
 }
 
 .visually-hidden {
@@ -195,6 +193,15 @@ p {
   cursor: pointer;
   font-family: inherit;
   line-height: 1;
+  flex: 0 0 2.75rem;
+  margin-left: 0.5rem;
+  border-radius: 50%;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  background: var(--color-chip);
+  text-decoration: none;
 }
 
 html.js-enabled .theme-toggle {
@@ -272,47 +279,36 @@ footer {
   margin: 0 auto;
 }
 
-.site-header {
-  position: sticky;
-  top: 1rem;
-  z-index: 10;
-  padding-top: 1.5rem;
-}
-
 .site-header-inner {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border-radius: 999px;
-  padding: 0.6rem 0.75rem 0.6rem 0.6rem;
-  background: var(--color-header);
+  gap: 0.25rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border-strong);
 }
 
 .wordmark {
-  display: block;
-  width: 2.5rem;
-  height: 2.5rem;
-  overflow: hidden;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 50%;
-  transition: border-color var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: 2.75rem;
+  color: var(--color-text-primary);
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
-.wordmark:hover {
-  border-color: var(--color-accent);
-}
-
-.wordmark img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 25%;
+.wordmark:hover,
+.wordmark:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
 }
 
 nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0 0.25rem;
   margin-left: auto;
 }
 
@@ -452,7 +448,7 @@ nav {
 
 .blog-shell {
   width: min(calc(100% - 3rem), var(--max-width));
-  margin: 8rem auto 5rem;
+  margin: 4rem auto 5rem;
 }
 
 .blog-intro {
@@ -520,7 +516,7 @@ nav {
 @media (max-width: 42rem) {
   .blog-shell {
     width: min(calc(100% - 1.5rem), var(--max-width));
-    margin-top: 7rem;
+    margin-top: 2.5rem;
   }
 }
 
@@ -610,53 +606,36 @@ footer {
   }
 }
 
+@media (max-width: 48rem) {
+  /* The toggle can be inside or after nav in the static page headers. */
+  .site-header-inner {
+    position: relative;
+    flex-wrap: wrap;
+    padding: 0.5rem 0;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 0.5rem;
+    right: 0;
+    margin-left: 0;
+  }
+
+  .wordmark {
+    max-width: calc(100% - 3.25rem);
+  }
+
+  nav {
+    flex-basis: 100%;
+    margin-left: -0.6rem;
+  }
+}
+
 @media (max-width: 42rem) {
   .site-header,
   main,
   footer {
     width: min(calc(100% - 1.5rem), var(--max-width));
-  }
-
-  .site-header {
-    top: 0.5rem;
-    padding-top: 1rem;
-  }
-
-  /* Wordmark and theme toggle share the first row; navigation takes the second. */
-  .site-header-inner {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 0.6rem 0.5rem;
-    border-radius: var(--radius-lg);
-    padding: 0.5rem;
-  }
-
-  .theme-toggle {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
-    min-width: 2.75rem;
-    justify-content: center;
-  }
-
-  nav {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    gap: 0.35rem;
-    margin-left: 0;
-  }
-
-  /* Pills share the row, so a wrapped one fills its line instead of orphaning. */
-  nav .pill {
-    flex: 1 1 auto;
-    justify-content: center;
-  }
-
-  .pill {
-    min-height: 2.75rem;
-    padding: 0.5rem 0.65rem;
-    font-size: 0.8rem;
   }
 
   .hero {

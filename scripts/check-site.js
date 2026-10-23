@@ -64,9 +64,8 @@ const technicalBlogFiles = technicalBlogSlugs.flatMap((slug) => [
   [`blog/technical/${slug}.html`, fs.readFileSync(path.join(root, 'blog', 'technical', `${slug}.html`), 'utf8')],
   [`blog/technical/${slug}.md`, fs.readFileSync(path.join(root, 'blog', 'technical', `${slug}.md`), 'utf8')],
 ]);
-// Matches the wordmark link and its decorative image without pinning attribute
-// order, so unrelated attributes can be added without a spurious failure.
-const WORDMARK_LINK_WITH_DECORATIVE_SKETCH_RE = /<a\s+class="wordmark"[^>]*aria-label="Olufisayo Bamidele home"[^>]*>\s*<img\s+[^>]*alt=""[^>]*>\s*<\/a>/;
+// The visible name identifies the site; its accessible label includes "home".
+const WORDMARK_HOME_LINK_RE = /<a\s+class="wordmark"[^>]*aria-label="Olufisayo Bamidele home"[^>]*>\s*Olufisayo Bamidele\s*<\/a>/;
 // The stored-theme key is written by the inline head script and read back by
 // js/theme.js; if the two drift, every reload silently discards the choice.
 const THEME_STORAGE_KEY = 'ngfizzy-theme';
@@ -164,8 +163,8 @@ for (const skillName of ['better-docs', 'cracked-debugging', 'document-runtime',
   }
 }
 
-if (!WORDMARK_LINK_WITH_DECORATIVE_SKETCH_RE.test(index)) {
-  throw new Error('The profile icon must be a decorative sketch inside the labeled home link.');
+if (!WORDMARK_HOME_LINK_RE.test(index)) {
+  throw new Error('The home link must show the site owner’s name inside the labeled link.');
 }
 
 if (!fs.existsSync(stylesheetPath)) {
@@ -278,6 +277,9 @@ function publicHtmlPaths(directory) {
 for (const htmlPath of publicHtmlPaths(root)) {
   const label = path.relative(root, htmlPath);
   const source = fs.readFileSync(htmlPath, 'utf8');
+  if (source.includes('class="site-header"') && !WORDMARK_HOME_LINK_RE.test(source)) {
+    throw new Error(`${label} must preserve the visible, accessible name in the shared home link.`);
+  }
   const scripts = source.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) || [];
   const trackers = scripts.filter((script) => script.includes('cloud.umami.is') || script.includes('data-website-id'));
   const head = source.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || '';

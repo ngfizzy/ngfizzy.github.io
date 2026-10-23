@@ -1,6 +1,6 @@
 .skills-shell {
   width: min(calc(100% - 3rem), var(--max-width));
-  margin: 8rem auto 5rem;
+  margin: 4rem auto 5rem;
 }
 
 .skills-intro {
@@ -15,7 +15,7 @@
 }
 
 .skills-directory {
-  scroll-margin-top: 8rem;
+  scroll-margin-top: 1.5rem;
 }
 
 .directory-heading {
@@ -147,7 +147,7 @@
 @media (max-width: 42rem) {
   .skills-shell {
     width: min(calc(100% - 1.5rem), var(--max-width));
-    margin-top: 7rem;
+    margin-top: 2.5rem;
   }
 
   .directory-heading,
