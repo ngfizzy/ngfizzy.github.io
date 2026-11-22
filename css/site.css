@@ -456,6 +456,10 @@ nav {
   margin-bottom: 3rem;
 }
 
+.blog-shell > section + section {
+  margin-top: 2rem;
+}
+
 .blog-intro h1,
 .blog-post h1 {
   max-width: 18ch;
