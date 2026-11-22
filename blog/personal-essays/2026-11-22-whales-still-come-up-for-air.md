@@ -4,6 +4,8 @@ date: 2026-11-22
 description: Imagine watching a whale come up for air and thinking it was just managing.
 ---
 
+![A whale surfaces at sunset while a shark swims below.](../../images/whales-still-come-up-for-air.webp)
+
 Sharks and whales live in the same water. They move through it differently, feed differently, and even breathe differently.
 
 A shark breathes through its gills. A whale holds its breath underwater and comes up for air through a blowhole. Whales give birth to live young and nurse them, just like we do.
