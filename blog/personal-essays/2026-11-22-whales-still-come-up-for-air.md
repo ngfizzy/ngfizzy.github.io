@@ -4,7 +4,7 @@ date: 2026-11-22
 description: They've made the ocean their home. From the outside, it might look like they're just managing.
 ---
 
-![A whale surfaces at sunset while a shark swims below.](../../images/whales-still-come-up-for-air.webp)
+![A whale lifts its broad tail flukes above the water as a shark with an upright tail swims below.](../../images/whales-still-come-up-for-air-tail.webp)
 
 Sharks and whales live in the same water. They move through it differently. They feed differently. They breathe differently.
 
